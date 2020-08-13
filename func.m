@@ -1,8 +1,8 @@
-function [Time, Angle, Tm]=func(t1,t2,t3)
-
-a=0.5; D1=60; D2=15; l=15; m=6000;
+function [Time, Angle, Tm]=func(a,t1,t2,t3)
+inf=10000000;
+D1=60; D2=15; l=15; m=6000;
 g=9.8; Tmax=20000*g; 
-%t1=5; t2=20; t3=4;%此时t为每段的时间间隔
+%a=0.5; t1=5; t2=20; t3=4;%此时t为每段的时间间隔
 xa1=a*t1*t1/2; xa2=xa1+a*t1*t2; xa3=xa2+t3*(2*t1-t3)*a/2; xa4=D1+D2;
 t4=(xa4-xa3)/(a*(t1-t3)); %xai为第i段结束后吊车的位移
 t2=t2+t1; t3=t2+t3; t4=t3+t4;%此时t为每段结束的时刻
@@ -12,7 +12,7 @@ ax=cell(4,1); ay=cell(4,1);%水平竖直加速度
 thetamax=0; Tm=0; %实际最大的角度，拉力
 
 if xa3>xa4 || (t3-t2)>=t1
-    Time=0; Angle=0; Tm=0;
+    Time=inf; Angle=inf; Tm=inf;
     return;
 end
 
@@ -56,8 +56,15 @@ for i=1:4
     hold on;
 end
 
-if Tm>Tmax
-    Time=0; Angle=0;
+vx4=a*(t1+t2-t3)+((l*theta{3}(length(theta{3}(:,2)),2)).^2 + 2*g*l*(1-cos(theta{3}(length(theta{3}(:,1)),1)))).^0.5;
+vx4=min(vx4,max(v{4}));
+if Tm>Tmax || vx4>0.5 %若拉力超限，最终速度超限
+    Time=inf; Angle=inf;
+    return;
+end
+
+if t4>120 %做第一问用的
+    Angle=inf;
     return;
 end
 
