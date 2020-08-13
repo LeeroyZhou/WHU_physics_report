@@ -22,7 +22,6 @@
 \tableofcontents
 \section{问题重述}
 \subsection{问题的提出}
-\section{模型的假设}
 \section{符号说明}
 \begin{center}
     \begin{tabular}{cc}
@@ -32,6 +31,8 @@
     \end{tabular}
 \end{center}
 \section{问题分析}
+\section{模型的假设}
+\section{建立模型}
 如图所示建立坐标系:
 
 \centerline{\includegraphics[width=10cm]{1.png}}
@@ -90,13 +91,11 @@ $$\text{初始条件}\left \{\begin{array}{l}
 
 整个过程中的最大摆角$\theta_{\max }=\max \theta(t), \quad 0 \leqslant t \leqslant t_{4}$，
 
-对于货物最终的水平速度，取第四段匀速过程中$\theta=0$时的货物水平速度$v_{x4}$,第四段吊车匀速运动速度$v_{4}$,由动能守恒定律有
-$$ \frac{m}{2} (v_{x 4}-v_{0})^{2}=\frac{m}{2}(l \dot{\theta})^{2}+m g l\left(1-\cos \theta\left(t_{3}\right)\right) $$
-可由此求出$v_{4x}$作为终点时货物的水平速度。
+对于货物最终的水平速度，取第四段匀速过程中货物水平速度绝对值的最大值$v_{4max}=max\left \{v_{x},t3 \leq t \leq t4\right \}$,要求$v_{4max} \leq 0.5m/s$。
 
 拉力:由$$\left\{\begin{array}{l}
     T_{x}=m a_{x} \\
-    T=\frac{T_{x}}{\sin \theta}
+    T_{y}=mg-ma_{y}
     \end{array}\right.$$
 可得全程拉力，要求$T \leq T_{max},0 \leq t \leq t4$
 

@@ -1,7 +1,8 @@
 \contentsline {section}{\numberline {一、}问题重述}{2}{section.1}%
 \contentsline {subsection}{\numberline {1\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}问题的提出}{2}{subsection.1.1}%
-\contentsline {section}{\numberline {二、}模型的假设}{2}{section.2}%
-\contentsline {section}{\numberline {三、}符号说明}{2}{section.3}%
-\contentsline {section}{\numberline {四、}问题分析}{2}{section.4}%
-\contentsline {section}{\numberline {五、}总结}{4}{section.5}%
+\contentsline {section}{\numberline {二、}符号说明}{2}{section.2}%
+\contentsline {section}{\numberline {三、}问题分析}{2}{section.3}%
+\contentsline {section}{\numberline {四、}模型的假设}{2}{section.4}%
+\contentsline {section}{\numberline {五、}建立模型}{2}{section.5}%
+\contentsline {section}{\numberline {六、}总结}{4}{section.6}%
 \contentsline {section}{参考文献}{4}{section*.2}%
