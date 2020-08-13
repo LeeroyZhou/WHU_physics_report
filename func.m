@@ -11,7 +11,7 @@ v=cell(4,1); Tx=cell(4,1); Ty=cell(4,1); T=cell(4,1); %水平速度，拉力,
 ax=cell(4,1); ay=cell(4,1);%水平竖直加速度
 thetamax=0; Tm=0; %实际最大的角度，拉力
 
-if xa3>xa4 || (t3-t2)>=t1
+if xa3>xa4 || (t3-t2)>=t1 || (t4-t3)<0.1
     Time=inf; Angle=inf; Tm=inf;
     return;
 end
@@ -57,7 +57,7 @@ for i=1:4
 end
 
 vx4=a*(t1+t2-t3)+((l*theta{3}(length(theta{3}(:,2)),2)).^2 + 2*g*l*(1-cos(theta{3}(length(theta{3}(:,1)),1)))).^0.5;
-vx4=min(vx4,max(v{4}));
+vx4=min(vx4,max(abs(v{4})));
 if Tm>Tmax || vx4>0.5 %若拉力超限，最终速度超限
     Time=inf; Angle=inf;
     return;

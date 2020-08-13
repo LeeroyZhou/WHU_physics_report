@@ -57,7 +57,7 @@ for i=1:4
 end
 
 vx4=a*(t1+t2-t3)+((l*theta{3}(length(theta{3}(:,2)),2)).^2 + 2*g*l*(1-cos(theta{3}(length(theta{3}(:,1)),1)))).^0.5;
-vx4=min(vx4,max(abs(v{4})));
+vx4=min(vx4,max(v{4}));
 if Tm>Tmax || vx4>0.5 %若拉力超限，最终速度超限
     Time=inf; Angle=inf;
     return;
