@@ -1,5 +1,5 @@
-\documentclass{cumcmthesis}
-    %\documentclass[withoutpreface,bwprint]{cumcmthesis} %去掉封面与编号页
+%\documentclass{cumcmthesis}
+    \documentclass[withoutpreface,bwprint]{cumcmthesis} %去掉封面与编号页
 
     \title{龙门吊问题的数学建模}
     \tihao{A}            % 题号
@@ -87,8 +87,8 @@ $$\text{初始条件}\left \{\begin{array}{l}
         \left.\dot{\theta}\right|_{t=T_{3}^{+}}=\left.\dot{\theta}\right|_{t=T_{3}^{-}}
     \end{array}\right.$$
 此时有:$$\left\{\begin{array}{l}
-    v_{x}=a\left(T_1+T_{2}-T_{3}\right)-l \dot{\theta} \cos \theta \\
-    x=x_{3}+a\left(T_{1}+T_{2}-T_{3}\right)\left(t-T_{3}\right)-l \sin \theta
+        v_{x}=a\left(T_1+T_{2}-T_{3}\right)-l \dot{\theta} \cos \theta \\
+        x=x_{3}+a\left(T_{1}+T_{2}-T_{3}\right)\left(t-T_{3}\right)-l \sin \theta
     \end{array}\right.$$
 
 整个过程中的最大摆角$\theta_{\max }=\max \theta(t), \quad 0 \leqslant t \leqslant T_{4}$，
@@ -96,8 +96,8 @@ $$\text{初始条件}\left \{\begin{array}{l}
 对于货物最终的水平速度，取第四段匀速过程中货物水平速度绝对值的最大值$v_{4xmax}=max\left \{v_{x},T_3 \leq t \leq T_4\right \}$,要求$v_{4max} \leq 0.5m/s$。
 
 运动全过程中货物的竖直速度$v_{y}=-l\dot{\theta}\sin\theta,\quad 0\leq t\leq T_4$,对速度求导可得水平、竖直方向的加速度，由此可以计算整个运动过程中每一时刻的拉力:$$\left\{\begin{array}{l}
-    F_{x}=m a_{x} \\
-    F_{y}=mg-ma_{y}
+        F_{x}=m a_{x} \\
+        F_{y}=mg-ma_{y}
     \end{array}\right.$$
 要求$F \leq F_{max},0 \leq t \leq T_4$
 \subsection{对摆角、效率的优化模型}
