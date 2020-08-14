@@ -2,10 +2,9 @@ function Angle=func1(input)
 inf=10000000;
 D1=60; D2=15; l=15; m=6000;
 g=9.8; Tmax=20000*g; 
-a=0.5; t1=input(1); t2=input(2);%此时t为每段的时间间隔
-xa1=a*t1*t1/2; xa2=xa1+a*t1*t2; xa3=D1; xa4=D1+D2;
-t3=t1-(t1*t1-2*(xa3-xa2)/a)^0.5;
-t4=(xa4-xa3)/(a*(t1-t3)); %xai为第i段结束后吊车的位移
+a=0.5; t1=input(1); t3=input(2);%此时t为每段的时间间隔
+xa1=a*t1*t1/2; xa3=D1; xa4=D1+D2; xa2=xa3-0.5*a*t3*(2*t1-t3);
+t2=xa2/(a*t1); t4=(xa4-xa3)/(a*(t1-t3)); %xai为第i段结束后吊车的位移
 t2=t2+t1; t3=t2+t3; t4=t3+t4;%此时t为每段结束的时刻
 t=cell(4,1); theta=cell(4,1); x=cell(4,1); %时间，角度，横坐标
 va=cell(4,1); va{2}=a*t1; va{4}=a*(t1+t2-t3);%吊车速度

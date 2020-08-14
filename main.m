@@ -16,7 +16,7 @@
 % end
 
 %[x,out]=fminsearch('func1',[8,7.01]);
-[Time, Angle, Tm]=func(0.5,8,7.0131);
+[Time, Angle, Tm]=func(0.5,7.9,7);
 % for i=1:15
 %     [Time, Angle, Tm]=func(0.5,Ans(i,1),Ans(i,2));
 %     
