@@ -19,7 +19,7 @@
     摘要的具体内容。
     \keywords{关键词1\quad  关键词2\quad   关键词3}
 \end{abstract}
-\tableofcontents
+%\tableofcontents
 \section{问题重述}
 \subsection{问题的提出}
 \section{符号说明}
@@ -31,14 +31,25 @@
     \end{tabular}
 \end{center}
 \section{问题分析}
-题目给出的龙门吊问题可以看作二维的质点运动问题，
+题目给出的龙门吊问题可以看作二维的质点运动问题，因为吊车只沿直线运动，货物没有初速度，在吊车前进的过程中货物只会在包含吊车运动轨迹的与地面垂直的平面内运动。货物的运动也不是平面内的自由运动，而是受到了来自吊车和吊绳的约束，因此货物的运动自由度实际上只有一个，可以用吊绳与竖直方向的夹角$\theta$表示。由于货物的运动受到的约束是完整约束，可以使用分析力学中的拉格朗日方程可以解出其运动微分方程，微分方程可以用软件进行数值求解，这样可以建立货物运动的动力学模型，可以在给定所有参数时解出整个过程的运动状态。
+
+前三问是在不同的参数、目标下的优化问题，可以使用优化模型求解。第一问在加速度给定时仅要求对货物的摆动角度进行优化，第二问在第一问的基础上同时要对整个过程的效率进行优化，第三问比第二问增加了加速度这一参数，并且要求给出能够吊运货物的最大质量。首先考虑效率的定义，由于写出的运动微分方程与货物的质量无关，在相同的吊运方式下，货物质量仅仅受到吊绳能够承受的最大拉力的限制，因此我们认为效率只与时间相关，吊运时间越短效率越高。我们可以根据运动的动力学模型写出最大摆角、吊运时间和实际吊绳最大拉力与$t_{1,2,3,4}$的程序函数，然后通过调用不同的优化算法来求解不同的优化问题。对于较为简单的前两问，可以使用多起点搜索最小值的方法；对于第三问，可以使用遗传算法、退火算法等优化算法进行求解。
+
+对于第四问要求的设计展示龙门吊吊运过程的图形界面(GUI),我们可以使用matlab的图形设计工具进行设计。
+
 \section{模型假设}
+货物只做平面运动；
+吊绳的质量忽略不计；
+货物摆动过程中不计各种阻力；
+整个过程中吊绳始终处于拉紧状态，且长度不变；
+吊运的效率仅取决于吊运过程耗费的时间
+
 \section{建立模型}
 \subsection{货物运动的动力学模型}
 如图所示建立坐标系:
 
 \centerline{\includegraphics[width=10cm]{1.png}}
-设吊车位置坐标为$x_a$,速度为$v_a$;货物的位置$(x,y)$,速度$v$,水平速度$v_{x}$,缆绳与竖直方向的角度为$\theta$(顺时针为正)。令$T_1=t_1,\quad T_2=t_1+t_2,\quad T_3=t_1+t_2+t_3,\quad T_4=t_1+t_2+t_3+t_4$。吊绳能承受的最大拉力$T_{max}=20000g,\quad g$取$9.8m/s^2$。
+设吊车位置坐标为$x_a$,速度为$v_a$;货物的位置$(x,y)$,速度$v$,水平速度$v_{x}$,缆绳与竖直方向的角度为$\theta$(顺时针为正)。令$T_1=t_1,\quad T_2=t_1+t_2,\quad T_3=t_1+t_2+t_3,\quad T_4=t_1+t_2+t_3+t_4$。吊绳能承受的最大拉力$T_{max}=20000g,\quad g$取$9.8m/s^2$。$AB$间距离为$D_1$,$CD$间距离为$D_2$。
 
 取货物为研究对象，用分析力学方法，取广义坐标$\theta$
 
@@ -58,7 +69,7 @@ $$\left\{\begin{array}{l}
     \end{array}\right.$$
 
 (2)当$T_1 \leq t \leq T_2$时，吊车匀速运动，对于货物同上可得运动微分方程:
-$$\ddot{\theta}+\frac{g}{l} \sin \theta=0$$
+$$l\ddot{\theta}-v_{a2}\dot{\theta}\sin\theta+(v_{a2}+g) \sin \theta=0$$
 $$\text{初始条件}\left \{\begin{array}{l}
         \left.\theta\right|_{t=T_{1}^{+}}=\left.\theta\right|_{t=T_{1}^{-}} \\
         \left.\dot{\theta}\right|_{t=T_{1}^{+}}=\left.\dot{\theta}\right|_{t=T_{1}^{-}}
@@ -73,34 +84,40 @@ $$\text{初始条件}\left \{\begin{array}{l}
 $$l \ddot{\theta}+a\left(T_{1}+T_{2}-t\right) \dot{\theta} \sin \theta+a \cos \theta+g \sin \theta=0$$
 $$\text{初始条件}\left \{\begin{array}{l}
         \left.\theta\right|_{t=T_{2}^{+}}=\left.\theta\right|_{t=T_{2}^{-}} \\
-        \left.\dot{\theta}\right|_{t=T_{2}}=\left.\dot{\theta}\right|_{t=T_{2}^{-}}
+        \left.\dot{\theta}\right|_{t=T_{2}^{+}}=\left.\dot{\theta}\right|_{t=T_{2}^{-}}
     \end{array}\right.$$
 此时有:$$\left\{\begin{array}{l}
         v_{x}=a\left(T_{1}+T_{2}-t\right)-l \dot{ \theta} \cos \theta \\
         x=x_{2}+aT_{1}(t-T_{2})-\frac{a}{2}(t-T_{2})^{2}-l\sin\theta
     \end{array}\right.$$
+并且需要满足在匀减速运动结束时吊车刚好到达B点，即$$\frac{a}{2}t_1^2+at_1t_2+\frac{a}{2}t_3(2t_1-t_3)=D_1$$
 
 (4)当$T_3 \leq t \leq T_4$时，吊车匀速运动，对于货物同(1)可得运动微分方程:
-$$\ddot{\theta}+\frac{g}{l} \sin \theta=0$$
+$$l\ddot{\theta}-v_{a4}\dot{\theta}\sin\theta+(v_{a4}+g) \sin \theta=0$$
+%$$\ddot{\theta}+\frac{g}{l} \sin \theta=0$$
 $$\text{初始条件}\left \{\begin{array}{l}
         \left.\theta\right|_{t=T_{3}^{+}}=\left.\theta\right|_{t=T_{3}^{-}} \\
         \left.\dot{\theta}\right|_{t=T_{3}^{+}}=\left.\dot{\theta}\right|_{t=T_{3}^{-}}
     \end{array}\right.$$
 此时有:$$\left\{\begin{array}{l}
         v_{x}=a\left(T_1+T_{2}-T_{3}\right)-l \dot{\theta} \cos \theta \\
-        x=x_{3}+a\left(T_{1}+T_{2}-T_{3}\right)\left(t-T_{3}\right)-l \sin \theta
+        x=D_1+a\left(T_{1}+T_{2}-T_{3}\right)\left(t-T_{3}\right)-l \sin \theta
     \end{array}\right.$$
 
-整个过程中的最大摆角$\theta_{\max }=\max \theta(t), \quad 0 \leqslant t \leqslant T_{4}$，
+从B点到C点货物运动过程中的最大摆角$\theta_{\max }=\max \theta(t), \quad T_3 \leqslant t \leqslant T_{4}$，
 
 对于货物最终的水平速度，取第四段匀速过程中货物水平速度绝对值的最大值$v_{4xmax}=max\left \{v_{x},T_3 \leq t \leq T_4\right \}$,要求$v_{4max} \leq 0.5m/s$。
 
 运动全过程中货物的竖直速度$v_{y}=-l\dot{\theta}\sin\theta,\quad 0\leq t\leq T_4$,对速度求导可得水平、竖直方向的加速度，由此可以计算整个运动过程中每一时刻的拉力:$$\left\{\begin{array}{l}
         F_{x}=m a_{x} \\
-        F_{y}=mg-ma_{y}
+        F_{y}=mg-ma_{y}\\
+        F=\sqrt{F_{x}^2 + F_{y}^2}
     \end{array}\right.$$
 要求$F \leq F_{max},0 \leq t \leq T_4$
+
 \subsection{对摆角、效率的优化模型}
+\subsubsection{仅考虑摆角的优化模型}
+啊哈！哈哈哈哈哈哈哈红火火恍恍惚惚
 
 
 \section{模型求解}
