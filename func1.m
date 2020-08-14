@@ -6,7 +6,7 @@ a=0.5; t1=input(1); t3=input(2);%此时t为每段的时间间隔
 xa1=a*t1*t1/2; xa3=D1; xa4=D1+D2; xa2=xa3-0.5*a*t3*(2*t1-t3);
 t2=(xa2-xa1)/(a*t1); t4=(xa4-xa3)/(a*(t1-t3)); %xai为第i段结束后吊车的位移
 t2=t2+t1; t3=t2+t3; t4=t3+t4;%此时t为每段结束的时刻
-t=cell(4,1); theta=cell(4,1); x=cell(4,1); %时间，角度，横坐标
+t=cell(4,1); theta=cell(4,1); x=cell(4,1); y=cell(4,1); %时间，角度，横纵坐标
 va=cell(4,1); va{2}=a*t1; va{4}=a*(t1+t2-t3);%吊车速度
 v=cell(4,1); Tx=cell(4,1); Ty=cell(4,1); T=cell(4,1); %水平速度，拉力,
 ax=cell(4,1); ay=cell(4,1);%水平竖直加速度
@@ -47,6 +47,7 @@ v{4}=a*(t1+t2-t3)-l*theta{4}(:,2).*cos(theta{4}(:,1));
 thetamax=max(theta{4}(:,1));
 
 for i=1:4
+    y{i}=l*cos(theta{i}(:,1));
     ax{i}=gradient(v{i},0.05);
     Tx{i}=m*ax{i};
     ay{i}=-1*(gradient(theta{i}(:,2),0.05).*sin(theta{i}(:,1)) + cos(theta{i}(:,1)).*theta{i}(:,2).^2);
@@ -58,10 +59,10 @@ for i=1:4
 end
 
 E4 = 0.5*m*(v{4}(length(v{4}))^2 + (l*theta{4}(length(theta{4}(:,2)),2)*sin(theta{4}(length(theta{4}(:,1)),1)))^2);
-vcx=(2*E4/m + 2*g*l*cos(theta{4}(length(theta{4}(:,1)),1)))^0.5;
+vcx=(2*E4/m + 2*g*l*(1-cos(theta{4}(length(theta{4}(:,1)),1))))^0.5;
 thetamax=max(thetamax,acos(1-E4/(m*g*l)));
 
-vcx=max(abs(v{4}));
+vcx=max(vcx,max(v{4}));
 if Tm>Tmax || vcx>0.5 %若拉力超限，最终速度超限
     Time=inf; Angle=inf;
     return;
