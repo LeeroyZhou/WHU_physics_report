@@ -62,14 +62,14 @@ E4 = 0.5*m*(v{4}(length(v{4}))^2 + (l*theta{4}(length(theta{4}(:,2)),2)*sin(thet
 vcx=(2*E4/m + 2*g*l*cos(theta{4}(length(theta{4}(:,1)),1)))^0.5;
 thetamax=max(thetamax,acos(E4/(m*g*l)));
 
-vcx=max(v{4});
+vcx=max(abs(v{4}));
 if Tm>Tmax || vcx>0.5 %若拉力超限，最终速度超限
     Time=inf; Angle=inf;
     return;
 end
 
 if t4>120 %做第一问用的
-    Angle=inf;
+    Angle=inf; Time=t4;
     return;
 end
 
