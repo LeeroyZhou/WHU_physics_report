@@ -1,16 +1,22 @@
-%a=0.5; t1=8; t2=8; t3=7.6;
-min=1000000;
-for i=2:1:8 %多起点进行最小值搜索
-    for j=5:5:60
-        [i,j]
-        [x,out]=fminsearch('func1',[i,j,i-1]);
-        if out<min
-            real=[x,out];
-            min=out;
-        end
-    end
+% a=0.5; t1=8; t2=8; t3=7.6;
+% min=1000000;
+% Ans=[]
+% for i=5:0.5:10 %多起点进行最小值搜索
+%     for j=1:1:20
+%         [i,j]
+%         [x,out]=fminsearch('func1',[i,j,i-1]);
+%         if out<min
+%             real=[x,out];
+%             min=out;
+%         end
+%         if out-0.1016 < 0.05
+%             Ans=[Ans; x,out]
+%         end
+%     end
+% end
+
+%[x,out]=fminsearch('func1',[8,10,7]);
+for i=1:15
+    [Time, Angle, Tm]=func(0.5,Ans(i,1),Ans(i,2),Ans(i,3));
+    Ans(i,4)=Time-(Ans(i,1)+Ans(i,2)+Ans(i,3)); Ans(i,5)=Time;
 end
-
-%[x,out]=fminsearch('func1',[8,5,7]);
-
-%[Time, Angle, Tm]=func(0.5,8.2,10,7);
