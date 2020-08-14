@@ -12,7 +12,7 @@ v=cell(4,1); Tx=cell(4,1); Ty=cell(4,1); T=cell(4,1); %水平速度，拉力,
 ax=cell(4,1); ay=cell(4,1);%水平竖直加速度
 thetamax=0; Tm=0; %实际最大的角度，拉力
 
-if (t1*t1-2*(xa3-xa2)/a)<0 || D1-xa2<0.1 || (t3-t2)>=t1 || (t3-t2)<0.1
+if t2<0 || (t3-t2)>=t1 || (t2-t1)<0.1 || t4>120
     Time=inf; Angle=inf; Tm=inf;
     return;
 end
@@ -53,22 +53,17 @@ for i=1:4
     Ty{i}=m*(g-l*ay{i});
     T{i}=(Tx{i}.^2 + Ty{i}.^2).^0.5;
     Tm=max(Tm,max(T{i}));
-    plot(t{i},v{i});
+    plot(t{i},theta{i}(:,1));
     hold on;
 end
 
 E4 = 0.5*m*(v{4}(length(v{4}))^2 + (l*theta{4}(length(theta{4}(:,2)),2)*sin(theta{4}(length(theta{4}(:,1)),1)))^2);
 vcx=(2*E4/m + 2*g*l*cos(theta{4}(length(theta{4}(:,1)),1)))^0.5;
-thetamax=max(thetamax,acos(E4/(m*g*l)));
+thetamax=max(thetamax,acos(1-E4/(m*g*l)));
 
 vcx=max(abs(v{4}));
 if Tm>Tmax || vcx>0.5 %若拉力超限，最终速度超限
     Time=inf; Angle=inf;
-    return;
-end
-
-if t4>120 %做第一问用的
-    Angle=inf; Time=t4;
     return;
 end
 
