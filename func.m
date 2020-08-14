@@ -53,7 +53,7 @@ for i=1:4
     Ty{i}=m*(g-l*ay{i});
     T{i}=(Tx{i}.^2 + Ty{i}.^2).^0.5;
     Tm=max(Tm,max(T{i}));
-    plot(t{i},theta{i}(:,1));
+    plot(t{i},x{i});
     hold on;
 end
 
