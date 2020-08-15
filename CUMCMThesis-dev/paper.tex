@@ -52,6 +52,7 @@
         $t_{1,2,3,4}$                    & 第1-4段运动分别持续的时间$(s)$          \\ \hline
         $T_i,i=1,2,3,4$                  & 第$i$段运动结束的时刻$(s)$              \\ \hline
         $F(t)$                           & 吊绳在时刻$t$时的拉力大小$(N)$          \\ \hline
+        $F_{max}$   & 吊绳的最大拉力，值为$20000g\quad N$ \\ \hline
     \end{tabular}
 \end{center}
 \section{问题分析}
@@ -147,7 +148,7 @@ $$\text{初始条件}\left \{\begin{array}{l}
 \subsubsection{仅考虑摆角的优化模型}
 针对第一问提出的问题，在加速度确定的情况下，考虑到题目中对运动的限制,即在匀减速运动结束时吊车要正要运动到B点：$$x_{a1}+x_{a2}+x_{a3}=\frac{a}{2}t_1^2+at_1t_2+\frac{a}{2}t_3(2t_1-t_3)=D_1$$可以把参数$t_{1,2,3,4}$简化为只需要两个参数$t_1,t_3$。通过上节建立的动力学模型可以求出在BC段运动过程中的最大摆角$\theta_{max}$。由此可以建立单目标优化模型如下：
 $$min\quad \theta_{max}$$
-$$\text{s.t.}\left \{\begin{array}{l}
+$$\text{$s.t.$}\left \{\begin{array}{l}
         v_{4xmax}<0.5m/s \\
         T_4\leq120s      \\
         F<F_{max},0\leq t\leq T_4
