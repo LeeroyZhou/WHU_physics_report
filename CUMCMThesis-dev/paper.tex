@@ -240,25 +240,48 @@ $$\left\{\begin{matrix}
 $w_\eta=0.554,w_\theta=0.447$。
 使用TOPSIS法和对加权后的解进行排序，排序前十的结果如下表:
 
-\begin{table}[!h]
+\begin{table}[]
     \centering
-\begin{tabular}{|c|c|c|c|c|c|}
-    \hline
-$a(m/s^2)$ & $t_1$ & $t_3$ & \textbackslash{}$eta\_i$ & \textbackslash{}$theta\_i$ & rank  \\ \hline
-0.74       & 8.01  & 7.55  & 320.77                 & 0.0150                   & 1.00  \\ \hline
-0.74       & 8.01  & 7.55  & 320.70                 & 0.0150                   & 2.00  \\ \hline
-0.77       & 7.94  & 7.50  & 318.27                 & 0.0141                   & 3.00  \\ \hline
-0.77       & 7.94  & 7.50  & 318.10                 & 0.0140                   & 4.00  \\ \hline
-0.74       & 8.01  & 7.56  & 320.50                 & 0.0149                   & 5.00  \\ \hline
-0.74       & 8.01  & 7.56  & 320.89                 & 0.0151                   & 6.00  \\ \hline
-0.77       & 7.94  & 7.51  & 318.31                 & 0.0141                   & 7.00  \\ \hline
-0.74       & 8.02  & 7.56  & 320.53                 & 0.0149                   & 8.00  \\ \hline
-0.74       & 8.01  & 7.56  & 320.85                 & 0.0151                   & 9.00  \\ \hline
-0.74       & 8.02  & 7.56  & 320.97                 & 0.0151                   & 10.00 \\ \hline
-\end{tabular}
-\end{table}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+    $a(m/s^2)$ & $t_1/s$ & $t_3/s$ & $\eta_i$ & $\theta_i/rad$ & rank  \\ \hline
+    0.74       & 8.01  & 7.55  & 320.77                 & 0.0150                   & 1.00  \\ \hline
+    0.74       & 8.01  & 7.55  & 320.70                 & 0.0150                   & 2.00  \\ \hline
+    0.77       & 7.94  & 7.50  & 318.27                 & 0.0141                   & 3.00  \\ \hline
+    0.77       & 7.94  & 7.50  & 318.10                 & 0.0140                   & 4.00  \\ \hline
+    0.74       & 8.01  & 7.56  & 320.50                 & 0.0149                   & 5.00  \\ \hline
+    0.74       & 8.01  & 7.56  & 320.89                 & 0.0151                   & 6.00  \\ \hline
+    0.77       & 7.94  & 7.51  & 318.31                 & 0.0141                   & 7.00  \\ \hline
+    0.74       & 8.02  & 7.56  & 320.53                 & 0.0149                   & 8.00  \\ \hline
+    0.74       & 8.01  & 7.56  & 320.85                 & 0.0151                   & 9.00  \\ \hline
+    0.74       & 8.02  & 7.56  & 320.97                 & 0.0151                   & 10.00 \\ \hline
+    \end{tabular}
+    \end{table}
 \newpage
-由此可知，当考虑缆绳最大承载力和加速度时，令$a=0.75m/s^2$,$(t_1,t_2,t_3,t_4)=(8.00s,2.01s,7.55s,50s)$可在吊运效率和最大吊运角度间进行较好权衡，此时最大起吊货物重量$m_{max}=19784kg$。
+由此可知，当考虑缆绳最大承载力和加速度时，令$a=0.75m/s^2$,$(t_1,t_2,t_3,t_4)=(8.00s,2.01s,7.55s,50s)$可在吊运效率和最大吊运角度间进行较好权衡，此时BC段最大摆角和吊运时间分别为$\theta_{max}=0.86^{\circ},t=61.69s$最大起吊货物重量$m_{max}=19784kg$。该解的$\theta(t),x(t)$图像如下所示。
+
+\begin{figure}[!h]
+    \centering
+    \begin{minipage}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{p3x.png}
+        %\subcaption{时间-x坐标图像}
+        \label{fig:sample-figure-a}
+    \end{minipage}
+    \begin{minipage}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{p3theta.png}
+        %\subcaption{时间-摆角图像}
+        \label{fig:sample-figure-b}
+    \end{minipage}
+    \caption{问题三解的$\theta(t)\quad x(t)$图像}
+    \label{fig:sample-figure}
+\end{figure}
+
+\subsection{问题四的求解}
+我们可以使用matlab的图形设计工具进行设计,得到了可以输入$(a,t_1,t_3)$参数便可求得货物运动的轨迹图的动态展示的图形用户界面。效果如下：
+
+\centerline{\includegraphics[width=10cm]{p4.png}}
 
 
 \section{模型检验}
