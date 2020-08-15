@@ -1,4 +1,4 @@
-function [Time, Angle, Mmax]=func(a,t1,t3)
+function [Time, Angle, Mmax]=func(UIAxes,a,t1,t3)
 inf=10000000;
 D1=60; D2=15; l=15; m=6000;
 g=9.8; Tmax=20000*g;
@@ -54,8 +54,7 @@ for i=1:4
     Ty{i}=m*(g-l*ay{i});
     T{i}=(Tx{i}.^2 + Ty{i}.^2).^0.5;
     Tm=max(Tm,max(T{i}));
-    p=plot(t{i},theta{i}(:,1),'linewidth',1.5);
-    hold on;
+    p=plot(UIAxes,t{i},theta{i}(:,1),'linewidth',1.5);
 end
 
 E4 = 0.5*m*(v{4}(length(v{4}))^2 + (l*theta{4}(length(theta{4}(:,2)),2)*sin(theta{4}(length(theta{4}(:,1)),1)))^2);
