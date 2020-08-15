@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.8.12)  15 AUG 2020 20:49
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.8.12)  15 AUG 2020 21:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -942,6 +942,24 @@ LaTeX Warning: Label `fig:sample-figure' multiply defined.
 
 LaTeX Warning: Label `fig:sample-figure@cref' multiply defined.
 
+
+LaTeX Warning: Label `fig:sample-figure-a' multiply defined.
+
+
+LaTeX Warning: Label `fig:sample-figure-a@cref' multiply defined.
+
+
+LaTeX Warning: Label `fig:sample-figure-b' multiply defined.
+
+
+LaTeX Warning: Label `fig:sample-figure-b@cref' multiply defined.
+
+
+LaTeX Warning: Label `fig:sample-figure' multiply defined.
+
+
+LaTeX Warning: Label `fig:sample-figure@cref' multiply defined.
+
 )
 \openout1 = `paper.aux'.
 
@@ -1366,43 +1384,72 @@ File: p3demo.png Graphic file (type bmp)
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 243.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvmode' on input line 264.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                \kern 2.00876pt
-(hyperref)                removed on input line 264.
+[10]
+File: p3x.png Graphic file (type bmp)
+<p3x.png>
+File: p3theta.png Graphic file (type bmp)
+<p3theta.png>
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvmode' on input line 264.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                \kern 2.00876pt
-(hyperref)                removed on input line 264.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvmode' on input line 266.
+(hyperref)                removing `\leavevmode@ifvmode' on input line 281.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                \kern 2.00876pt
-(hyperref)                removed on input line 266.
+(hyperref)                removed on input line 281.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvmode' on input line 266.
+(hyperref)                removing `\leavevmode@ifvmode' on input line 281.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                \kern 2.00876pt
-(hyperref)                removed on input line 266.
+(hyperref)                removed on input line 281.
 
-[10] (d:/Program Files/texlive/2020/texmf-dist/tex/latex/listings/lstlang1.sty
+File: p4.png Graphic file (type bmp)
+<p4.png>
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 288.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 288.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 288.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 288.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 290.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 290.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 290.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 290.
+
+[11] (d:/Program Files/texlive/2020/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 
@@ -1428,14 +1475,19 @@ Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
 (fontspec)             <->"FangSong/OT:script=hani;language=dflt;"
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 
- [11] [12] [13] [14] [15] [16] [17]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 554.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 554.
+ [12] [13] [14] [15] [16]
+Overfull \hbox (17.67126pt too wide) in paragraph at lines 515--516
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]  
+ []
+
+[17] [18] [19] [20] [21] [22]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 741.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 741.
  (./paper.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 554.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 554.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 741.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 741.
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: E5A46F41E9BEFF680F9F20CF767C47D4;3026.
+(rerunfilecheck)             Checksum: EE816C283CA4B61D3E3A9BAA18CE0330;2948.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1445,12 +1497,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 33386 strings out of 479418
- 693541 string characters out of 5881945
- 1160664 words of memory out of 5000000
- 50228 multiletter control sequences out of 15000+600000
+ 33503 strings out of 479418
+ 695262 string characters out of 5881945
+ 1157701 words of memory out of 5000000
+ 50342 multiletter control sequences out of 15000+600000
  555572 words of font info for 182 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 68i,13n,86p,805b,2504s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,13n,86p,805b,2554s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.pdf (17 pages).
+Output written on paper.pdf (22 pages).
