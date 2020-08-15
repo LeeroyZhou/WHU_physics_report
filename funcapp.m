@@ -1,5 +1,5 @@
-function [Time, Angle, Mmax]=funcapp(a,t1,t3,UIAxes)
-hold(UIAxes,'off' );
+function [Time, Angle, Mmax]=funcapp(a,t1,t3,h)
+clearpoints(h);
 inf=10000000;
 D1=60; D2=15; l=15; m=6000;
 g=9.8; Tmax=20000*g;
@@ -55,8 +55,14 @@ for i=1:4
     Ty{i}=m*(g-l*ay{i});
     T{i}=(Tx{i}.^2 + Ty{i}.^2).^0.5;
     Tm=max(Tm,max(T{i}));
-    p=plot(UIAxes,x{i},-y{i},'linewidth',1.5);
-    hold(UIAxes,'on' );
+    for k = 1:length(x{i})
+        addpoints(h,x{i}(k),-y{i}(k));
+        drawnow limitrate
+        pause(0.0000007);
+    end
+    drawnow
+    %         p=plot(UIAxes,x{i},-y{i},'linewidth',1.5);
+    %       hold(h,'on' );
 end
 
 E4 = 0.5*m*(v{4}(length(v{4}))^2 + (l*theta{4}(length(theta{4}(:,2)),2)*sin(theta{4}(length(theta{4}(:,1)),1)))^2);
@@ -64,9 +70,8 @@ vcx=(2*E4/m + 2*g*l*(1-cos(theta{4}(length(theta{4}(:,1)),1))))^0.5;
 thetamax=max(thetamax,acos(1-E4/(m*g*l)));
 
 vcx=max(vcx,max(v{4}));
-if Tm>Tmax || vcx>0.5 %若拉力超限，最终速度超限
-    Time=inf; Angle=inf;
-    return;
-end
-
-Time=t4; Angle=thetamax; Mmax=m*Tmax/Tm;
+% if Tm>Tmax || vcx>0.5 %若拉力超限，最终速度超限
+%     Time=inf; Angle=inf;
+%     return;
+% end
+Time=num2str(t4); Angle=num2str(thetamax); Mmax=num2str(m*Tmax/Tm);
