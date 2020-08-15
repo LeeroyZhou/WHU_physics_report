@@ -1,4 +1,4 @@
-classdef app1_exported < matlab.apps.AppBase
+classdef demo < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
@@ -137,7 +137,7 @@ classdef app1_exported < matlab.apps.AppBase
             % Create LeftPanel
             app.LeftPanel = uipanel(app.GridLayout);
             app.LeftPanel.TitlePosition = 'centertop';
-            app.LeftPanel.Title = '¿Éµ÷²ÎÊý';
+            app.LeftPanel.Title = 'å¯è°ƒå‚æ•°';
             app.LeftPanel.Layout.Row = 1;
             app.LeftPanel.Layout.Column = 1;
 
@@ -167,13 +167,13 @@ classdef app1_exported < matlab.apps.AppBase
             app.Button = uibutton(app.LeftPanel, 'push');
             app.Button.ButtonPushedFcn = createCallbackFcn(app, @ButtonPushed, true);
             app.Button.Position = [36 166 100 24];
-            app.Button.Text = 'ÑÝÊ¾';
+            app.Button.Text = 'æ¼”ç¤º';
 
             % Create Label_2
             app.Label_2 = uilabel(app.LeftPanel);
             app.Label_2.HorizontalAlignment = 'right';
             app.Label_2.Position = [8 311 41 22];
-            app.Label_2.Text = '¼ÓËÙ¶È';
+            app.Label_2.Text = 'åŠ é€Ÿåº¦';
 
             % Create Slider
             app.Slider = uislider(app.LeftPanel);
@@ -184,14 +184,14 @@ classdef app1_exported < matlab.apps.AppBase
             % Create RightPanel
             app.RightPanel = uipanel(app.GridLayout);
             app.RightPanel.TitlePosition = 'centertop';
-            app.RightPanel.Title = 'ÁúÃÅµõÑÝÊ¾';
+            app.RightPanel.Title = 'é¾™é—¨åŠæ¼”ç¤º';
             app.RightPanel.BackgroundColor = [0.9412 0.9412 0.9412];
             app.RightPanel.Layout.Row = 1;
             app.RightPanel.Layout.Column = 2;
 
             % Create UIAxes
             app.UIAxes = uiaxes(app.RightPanel);
-            title(app.UIAxes, 'Î»ÖÃÊ¾ÒâÍ¼')
+            title(app.UIAxes, 'x-yå›¾åƒ')
             xlabel(app.UIAxes, 'X')
             ylabel(app.UIAxes, 'Y')
             app.UIAxes.XLim = [0 100];
@@ -245,7 +245,7 @@ classdef app1_exported < matlab.apps.AppBase
     methods (Access = public)
 
         % Construct app
-        function app = app1_exported(varargin)
+        function app = demo(varargin)
 
             % Create UIFigure and components
             createComponents(app)
