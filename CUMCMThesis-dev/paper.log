@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.22)  15 AUG 2020 18:53
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.22)  15 AUG 2020 18:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1500,15 +1500,9 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 216.
  (./paper.aux)
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 216.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 216.
+Package rerunfilecheck Info: File `paper.out' has not changed.
+(rerunfilecheck)             Checksum: CA7243A98A988288DD820CC8F2BFA6F8.
 
-
-Package rerunfilecheck Warning: File `paper.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `paper.out':
-(rerunfilecheck)             Before: 3E6A1DB01A470EEC641D5DEBC1B75F33
-(rerunfilecheck)             After:  CA7243A98A988288DD820CC8F2BFA6F8.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
