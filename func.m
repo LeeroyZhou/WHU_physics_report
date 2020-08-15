@@ -1,4 +1,4 @@
-function [Time, Angle, Tm]=func(a,t1,t3)
+function [Time, Angle, Mmax]=func(a,t1,t3)
 inf=10000000;
 D1=60; D2=15; l=15; m=6000;
 g=9.8; Tmax=20000*g;
@@ -54,7 +54,7 @@ for i=1:4
     Ty{i}=m*(g-l*ay{i});
     T{i}=(Tx{i}.^2 + Ty{i}.^2).^0.5;
     Tm=max(Tm,max(T{i}));
-    plot(x{i},-y{i});
+    p=plot(t{i},theta{i}(:,1),'linewidth',1.5);
     hold on;
 end
 
@@ -68,4 +68,4 @@ if Tm>Tmax || vcx>0.5 %若拉力超限，最终速度超限
     return;
 end
 
-Time=t4; Angle=thetamax;
+Time=t4; Angle=thetamax; Mmax=m*Tmax/Tm;
