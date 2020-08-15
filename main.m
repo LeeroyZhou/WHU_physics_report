@@ -17,8 +17,8 @@
 % end
 
 %[x,out]=fminsearch('func1',[5.5725,5.2500]);
-[Time, Angle, Mm]=func(0.5,5.5725,5.25);
-% grid on;
+[Time, Angle, Mm]=func(0.744889958,8.00968094,7.552714981);
+grid on;
 
 %axis equal;
 %Angle=func1([5.572f5,5.2500]);
