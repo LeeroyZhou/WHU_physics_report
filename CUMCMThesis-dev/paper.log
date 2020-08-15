@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.22)  15 AUG 2020 18:55
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.22)  15 AUG 2020 19:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1494,14 +1494,40 @@ File: p2x.png Graphic file (type bmp)
 <p2x.png>
 File: p2theta.png Graphic file (type bmp)
 <p2theta.png>
- [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 216.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 216.
+ (d:/texlive/2019/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2019/02/27 1.8b listings language file
+)
+
+Package fontspec Info: Could not resolve font "FangSong/BI" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Could not resolve font "FangSong/B" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Could not resolve font "FangSong/I" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
+(fontspec)             with options [Script={CJK}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"FangSong/OT:script=hani;language=DFLT;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+
+ [8] [9] [10] [11] [12] [13] [14] [15]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 497.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 497.
  (./paper.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 216.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 216.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 497.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 497.
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: CA7243A98A988288DD820CC8F2BFA6F8.
+(rerunfilecheck)             Checksum: D56CA98C5750A987EDCE2229D7E081C5.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1511,12 +1537,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 40959 strings out of 494432
- 836223 string characters out of 6165728
- 899889 words of memory out of 5000000
- 44300 multiletter control sequences out of 15000+600000
- 548102 words of font info for 140 fonts, out of 8000000 for 9000
+ 41632 strings out of 494432
+ 844416 string characters out of 6165728
+ 1093409 words of memory out of 5000000
+ 44955 multiletter control sequences out of 15000+600000
+ 548158 words of font info for 147 fonts, out of 8000000 for 9000
  286 hyphenation exceptions out of 8191
- 62i,9n,82p,805b,664s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,9n,82p,805b,2538s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.pdf (8 pages).
+Output written on paper.pdf (15 pages).
