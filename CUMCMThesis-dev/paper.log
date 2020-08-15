@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.8.12)  15 AUG 2020 00:27
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2020.8.12)  15 AUG 2020 10:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1270,38 +1270,47 @@ File: p1theta.png Graphic file (type bmp)
 [6]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvmode' on input line 155.
+(hyperref)                removing `\leavevmode@ifvmode' on input line 156.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                \kern 2.00876pt
-(hyperref)                removed on input line 155.
+(hyperref)                removed on input line 156.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvmode' on input line 155.
+(hyperref)                removing `\leavevmode@ifvmode' on input line 156.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                \kern 2.00876pt
-(hyperref)                removed on input line 155.
+(hyperref)                removed on input line 156.
 
-[7] [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 166.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 166.
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 158.
+
+File: p2x.png Graphic file (type bmp)
+<p2x.png>
+[7]
+File: p2theta.png Graphic file (type bmp)
+<p2theta.png>
+ [8] [9]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 183.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 183.
  (./paper.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 166.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 166.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 183.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 183.
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 58414211B2E9A959A14A422837F66990;2063.
+(rerunfilecheck)             Checksum: 0FF1FEF9AF0617A39A0ADF0C28AF22D9;2063.
  ) 
 Here is how much of TeX's memory you used:
- 32585 strings out of 479418
- 682886 string characters out of 5881945
- 962428 words of memory out of 5000000
- 49466 multiletter control sequences out of 15000+600000
+ 32600 strings out of 479418
+ 683078 string characters out of 5881945
+ 962430 words of memory out of 5000000
+ 49479 multiletter control sequences out of 15000+600000
  540669 words of font info for 110 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 68i,9n,86p,805b,472s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,11n,86p,805b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.pdf (8 pages).
+Output written on paper.pdf (9 pages).
