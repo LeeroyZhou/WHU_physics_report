@@ -19,28 +19,28 @@ end
 
 %第一段加速
 dydt=@(t,y)[ y(2) ; (-a*y(2)*t*sin(y(1))+a*cos(y(1))-g*sin(y(1)))/l ];
-options = odeset('RelTol',1e-4,'AbsTol',[1e-4 1e-4]);
+options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
 [t{1},theta{1}] = ode45(dydt,[0:0.05:t1],[0 0],options);
 x{1}=0.5*a*t{1}.^2-l*sin(theta{1}(:,1));
 v{1}=a*t{1}-l*theta{1}(:,2).*cos(theta{1}(:,1));
 
 %第二段匀速
 dydt=@(t,y)[ y(2) ; (1/l)*(va{2}*y(2)*sin(y(1))-(va{2}+g)*sin(y(1))) ];
-options = odeset('RelTol',1e-4,'AbsTol',[1e-4 1e-4]);
+options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
 [t{2},theta{2}] = ode45(dydt,[t1:0.05:t2],[theta{1}(length(theta{1}(:,1)),1) theta{1}(length(theta{1}(:,2)),2)],options);
 x{2}=xa1+a*t1*(t{2}-t1)-l*sin(theta{2}(:,1));
 v{2}=a*t1-l*theta{2}(:,2).*cos(theta{2}(:,1));
 
 %第三段减速
 dydt=@(t,y)[ y(2) ; (-a*y(2)*(t1+t2-t)*sin(y(1))-a*cos(y(1))-g*sin(y(1)))/l ];
-options = odeset('RelTol',1e-4,'AbsTol',[1e-4 1e-4]);
+options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
 [t{3},theta{3}] = ode45(dydt,[t2:0.05:t3],[theta{2}(length(theta{2}(:,1)),1) theta{2}(length(theta{2}(:,2)),2)],options);
 x{3}=xa2+a*t1*(t{3}-t2)-0.5*a*(t{3}-t2).^2-l*sin(theta{3}(:,1));
 v{3}=a*(t1+t2-t{3})-l*theta{3}(:,2).*cos(theta{3}(:,1));
 
 %第四段匀速
 dydt=@(t,y)[ y(2) ; (1/l)*(va{4}*y(2)*sin(y(1))-(va{4}+g)*sin(y(1))) ];
-options = odeset('RelTol',1e-4,'AbsTol',[1e-4 1e-4]);
+options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
 [t{4},theta{4}] = ode45(dydt,[t3:0.05:t4],[theta{3}(length(theta{3}(:,1)),1) theta{3}(length(theta{3}(:,2)),2)],options);
 x{4}=xa3+a*(t1+t2-t3)*(t{4}-t3)-l*sin(theta{4}(:,1));
 v{4}=a*(t1+t2-t3)-l*theta{4}(:,2).*cos(theta{4}(:,1));

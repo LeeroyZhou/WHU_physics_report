@@ -1,8 +1,8 @@
-function [Time, Angle, Mmax]=func(a,t1,t3)
+function Angle=func1(input)
 inf=10000000;
 D1=60; D2=15; l=15; m=6000;
-g=9.8; Tmax=20000*g;
-%a=0.5; t1=5; t2=20; t3=4;%此时t为每段的时间间隔
+g=9.8; Tmax=20000*g; 
+a=0.5; t1=input(1); t3=input(2);%此时t为每段的时间间隔
 xa1=a*t1*t1/2; xa3=D1; xa4=D1+D2; xa2=xa3-0.5*a*t3*(2*t1-t3);
 t2=(xa2-xa1)/(a*t1); t4=(xa4-xa3)/(a*(t1-t3)); %xai为第i段结束后吊车的位移
 t2=t2+t1; t3=t2+t3; t4=t3+t4;%此时t为每段结束的时刻
@@ -40,7 +40,7 @@ v{3}=a*(t1+t2-t{3})-l*theta{3}(:,2).*cos(theta{3}(:,1));
 
 %第四段匀速
 dydt=@(t,y)[ y(2) ; (1/l)*(va{4}*y(2)*sin(y(1))-(va{4}+g)*sin(y(1))) ];
-options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
+options = odeset('RelTol',1e-4,'AbsTol',[1e-4 1e-4]);
 [t{4},theta{4}] = ode45(dydt,[t3:0.05:t4],[theta{3}(length(theta{3}(:,1)),1) theta{3}(length(theta{3}(:,2)),2)],options);
 x{4}=xa3+a*(t1+t2-t3)*(t{4}-t3)-l*sin(theta{4}(:,1));
 v{4}=a*(t1+t2-t3)-l*theta{4}(:,2).*cos(theta{4}(:,1));
@@ -54,8 +54,8 @@ for i=1:4
     Ty{i}=m*(g-l*ay{i});
     T{i}=(Tx{i}.^2 + Ty{i}.^2).^0.5;
     Tm=max(Tm,max(T{i}));
-    p=plot(t{i},x{i},'linewidth',1.5);
-    hold on;
+    %plot(t{i},theta{i}(:,1));
+    %hold on;
 end
 
 E4 = 0.5*m*(v{4}(length(v{4}))^2 + (l*theta{4}(length(theta{4}(:,2)),2)*sin(theta{4}(length(theta{4}(:,1)),1)))^2);
@@ -68,4 +68,4 @@ if Tm>Tmax || vcx>0.5 %若拉力超限，最终速度超限
     return;
 end
 
-Time=t4; Angle=thetamax; Mmax=m*Tmax/Tm;
+Time=t4; Angle=thetamax;

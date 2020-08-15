@@ -36,7 +36,17 @@
     \begin{tabular}{cc}
         \hline
         \makebox[0.3\textwidth][c]{符号} & \makebox[0.4\textwidth][c]{意义} \\ \hline
-        D                                & 木条宽度（cm）                   \\ \hline
+        $a$     & 吊车加速度大小($m/s^{-2}$) \\ \hline
+        $g$     & 重力加速度，$9.8m/s^{-2}$ \\ \hline
+        $x(t),y(t)$  & 重力加速度，$9.8m/s^{-2}$ \\ \hline
+        $v_x(t),v_y(t)$  & 重力加速度，$9.8m/s^{-2}$ \\ \hline
+        $\theta(t)$  & 重力加速度，$9.8m/s^{-2}$ \\ \hline
+        $\theta_{max}$  & 重力加速度，$9.8m/s^{-2}$ \\ \hline
+        $v_{4xmax}$  & 重力加速度，$9.8m/s^{-2}$ \\ \hline
+        $x_a(t),v_a(t)$  & 重力加速度，$9.8m/s^{-2}$ \\ \hline
+        $t_{1,2,3,4}$  & 重力加速度，$9.8m/s^{-2}$ \\ \hline
+        $T_{1,2,3,4}$  & 重力加速度，$9.8m/s^{-2}$ \\ \hline
+        $F(t)$  & 重力加速度，$9.8m/s^{-2}$ \\ \hline
     \end{tabular}
 \end{center}
 \section{问题分析}
@@ -119,7 +129,7 @@ $$\text{初始条件}\left \{\begin{array}{l}
 
 从B点到C点货物运动过程中的最大摆角$\theta_{\max }=\max \theta(t), \quad T_3 \leqslant t \leqslant T_{4}$，
 
-对于货物最终的水平速度，取第四段匀速过程中货物水平速度绝对值的最大值$v_{4xmax}=max\left \{v_{x},T_3 \leq t \leq T_4\right \}$,要求$v_{4max} \leq 0.5m/s$。
+对于货物最终的水平速度，取第四段匀速过程中货物水平速度绝对值的最大值$v_{4xmax}=max\left \{v_{x},T_3 \leq t \leq T_4\right \}$,要求$v_{4xmax} \leq 0.5m/s$。
 
 运动全过程中货物的竖直速度$v_{y}=-l\dot{\theta}\sin\theta,\quad 0\leq t\leq T_4$,对速度求导可得水平、竖直方向的加速度，由此可以计算整个运动过程中每一时刻的拉力:$$\left\{\begin{array}{l}
         F_{x}=m a_{x}   \\
@@ -133,7 +143,7 @@ $$\text{初始条件}\left \{\begin{array}{l}
 针对第一问提出的问题，在加速度确定的情况下，考虑到题目中对运动的限制,即在匀减速运动结束时吊车要正要运动到B点：$$x_{a1}+x_{a2}+x_{a3}=\frac{a}{2}t_1^2+at_1t_2+\frac{a}{2}t_3(2t_1-t_3)=D_1$$可以把参数$t_{1,2,3,4}$简化为只需要两个参数$t_1,t_3$。通过上节建立的动力学模型可以求出在BC段运动过程中的最大摆角$\theta_{max}$。由此可以建立单目标优化模型如下：
 $$min\quad \theta_{max}$$
 $$\text{s.t.}\left \{\begin{array}{l}
-    v_{4max}<0.5m/s \\
+    v_{4xmax}<0.5m/s \\
     T_4\leq120s \\
     F<F_{max},0\leq t\leq T_4
 \end{array}\right.$$
@@ -148,7 +158,7 @@ $$\text{s.t.}\left \{\begin{array}{l}
 我们首先将货物运动的动力学模型使用matlab编写为一个函数脚本，其中四段运动过程的常微分方程使用ode45求解器进行数值求解，当给定的参数$a,t1,t3$满足题目中的限制要求，则计算出这种运动样式下的最大摆角和吊运时间，否则返回一个设定的极大值。我们针对前三问不同的优化目标对函数脚本进行对应的修改，以满足不同的求解需求。函数脚本func.m见附录。
 
 \subsection{第一问的求解}
-考虑到动力学模型的最大摆角——$(t_1,t_3)$不是线性关系，在特定区间的取值由于不满足模型限制而返回极大值，因此很难通过一次简单的优化过程找到最优解。为此我们使用了在多个起点运行区域极小值的搜索函数，具体而言是使用了matlab的fminsearch函数，在$t_1=[3,12],\quad t_3=[t_1-2,t_1]$的范围均匀取初始点多次运行，找到若干局部较优解，再从中取$\theta_{max}$最小的解作为最终解。运行后得到当$(t_1,t_2,t_3,t_4)=(5.60s,15.85s,5.27s,91.95s)$时，货物在BC段的最大摆角$\theta_{max}=0.63^{\circ}$。这种情况下的货物$\theta(t),x(t)$曲线如下图所示。(不同颜色的线条代表4段不同的运动过程)
+考虑到动力学模型的最大摆角——$(t_1,t_3)$不是线性关系，在特定区间的取值由于不满足模型限制而返回极大值，因此很难通过一次简单的优化过程找到最优解。为此我们使用了在多个起点运行区域极小值的搜索函数，具体而言是使用了matlab的fminsearch函数，在$t_1=[3,12],\quad t_3=[t_1-2,t_1]$的范围均匀取初始点多次运行，找到若干局部较优解，再从中取$\theta_{max}$最小的解作为最终解。运行后得到当$(t_1,t_2,t_3,t_4)=(5.57s,15.97s,5.2s,93.02s)$时，货物在BC段的最大摆角$\theta_{max}=0.48^{\circ}$。这种情况下的货物$\theta(t),x(t)$曲线如下图所示。(不同颜色的线条代表4段不同的运动过程)
 
 \centerline{\includegraphics[width=10cm]{p1x.png}}
 \centerline{\includegraphics[width=10cm]{p1theta.png}}
