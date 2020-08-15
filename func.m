@@ -54,7 +54,7 @@ for i=1:4
     Ty{i}=m*(g-l*ay{i});
     T{i}=(Tx{i}.^2 + Ty{i}.^2).^0.5;
     Tm=max(Tm,max(T{i}));
-    p=plot(t{i},x{i},'linewidth',1.5);
+    p=plot(x{i},-y{i},'linewidth',1.5);
     hold on;
 end
 
