@@ -171,7 +171,7 @@ $$\begin{array}{l}
 \end{array}$$
 由5.1中提出的货物运动的动力学模型可知，货物的运动方程与货物质量$m$无关，在货物运动的加速度已经确定的情况下，吊绳拉力的大小正比于质量$m$。因此当运动过程中吊绳的最大拉力等于$T_{max}$时，对应的货物质量就是当前吊运方式能吊运的最大质量。即$m_{max}=\frac{T_{max}}{a_{max}}$,其中$a_{max}$是整个运动过程中去除重力加速度后的加速度最大值。对于该多目标问题，我们在5.1中模型的基础上采用NSGA-II（Nondominated Sorting Genetic Algorithm-II，非支配排序遗传算法二）进行求解。对于现有规模为种群，其通过帕累托支配关系将种群分为$k$个非支配层，每个非支配层里的个体互无支配关系，并使用联赛选择法选择较优个体，其规则为：非支配等级越小的个体越优，若两个体非支配等级相同，则拥挤度越大的越优。优质个体选作新父种群，其产生的子群与该新父种群一起进行下一轮非支配排序。算法流程如下图所示：
 
-\centerline{\includegraphics[width=10cm]{p2demo.png}}
+\centerline{\includegraphics[width=13cm]{p2demo.png}}
 
 最后一轮迭代结束后，我们能够得到一组互不支配的帕累托占优解。类似问题二的求解方法，我们使用熵权法确定各目标的权值，并通过逼近理想排序在解集种找出相对较优的一组解作为该问题答案。
 
@@ -223,7 +223,7 @@ $$(t_1,t_2,t_3,t_4)=(5.57s,16.00s,5.08s,61.25s),\quad \theta_{max}=0.96^{\circ},
 \subsection{第三问的求解}
 考虑到当$(t_1,t_3)$取值不当时模型会由于不满足限制而返回极大值，因此我们取$t_1=[3,10]$,$t_2=[3,10]$,$a=[0,1]$作为搜索空间，设置种群规模$n=1000$，最大遗传代数100代，迭代求出帕累托解集如下图所示：
 
-\centerline{\includegraphics[width=10cm]{p3demo.png}}
+\centerline{\includegraphics[width=13cm]{p3demo.png}}
 
 我们用熵权法确定各目标权值。设解集中有$n$个解，有$m$个目标函数。第$i$个解的第$j$个指标$d_{ij}$，我们对其进行向量归一化：
 $$p_{ij}=\frac{d_{ij}}{\sum_{i=1}^{n}d_{ij}}$$
@@ -240,7 +240,8 @@ $$\left\{\begin{matrix}
 $w_\eta=0.554,w_\theta=0.447$。
 使用TOPSIS法和对加权后的解进行排序，排序前十的结果如下表:
 
-\begin{table}[]
+\begin{table}[!h]
+    \centering
 \begin{tabular}{|c|c|c|c|c|c|}
     \hline
 $a(m/s^2)$ & $t_1$ & $t_3$ & \textbackslash{}$eta\_i$ & \textbackslash{}$theta\_i$ & rank  \\ \hline
@@ -256,7 +257,7 @@ $a(m/s^2)$ & $t_1$ & $t_3$ & \textbackslash{}$eta\_i$ & \textbackslash{}$theta\_
 0.74       & 8.02  & 7.56  & 320.97                 & 0.0151                   & 10.00 \\ \hline
 \end{tabular}
 \end{table}
-
+\newpage
 由此可知，当考虑缆绳最大承载力和加速度时，令$a=0.75m/s^2$,$(t_1,t_2,t_3,t_4)=(8.00s,2.01s,7.55s,50s)$可在吊运效率和最大吊运角度间进行较好权衡，此时最大起吊货物重量$m_{max}=19784kg$。
 
 
@@ -268,7 +269,7 @@ $a(m/s^2)$ & $t_1$ & $t_3$ & \textbackslash{}$eta\_i$ & \textbackslash{}$theta\_
     \bibitem{bib:one} ....
 \end{thebibliography}
 \begin{appendices}
-    \section{MATLAB源程序1}
+    \section{func.m}
 
     \begin{lstlisting}[language=matlab]
         function [Time, Angle, Mmax]=func(a,t1,t3)
@@ -343,7 +344,7 @@ $a(m/s^2)$ & $t_1$ & $t_3$ & \textbackslash{}$eta\_i$ & \textbackslash{}$theta\_
         
         Time=t4; Angle=thetamax; Mmax=m*Tmax/Tm;
      \end{lstlisting}
-    \section{MATLAB源程序2}
+    \section{func1.m}
     \begin{lstlisting}[language=matlab]
         function Angle=func1(input)
 inf=10000000;
@@ -417,118 +418,281 @@ end
 
 Time=t4; Angle=thetamax;
      \end{lstlisting}
-     \section{画图源代码}
+     \section{演示代码}
      \begin{lstlisting}[language=matlab]
-        function [Time, Angle, Mmax]=funcapp(a,t1,t3,h)
-clearpoints(h);
-inf=10000000;
-D1=60; D2=15; l=15; m=6000;
-g=9.8; Tmax=20000*g;
-%a=0.5; t1=5; t2=20; t3=4;%此时t为每段的时间间隔
-xa1=a*t1*t1/2; xa3=D1; xa4=D1+D2; xa2=xa3-0.5*a*t3*(2*t1-t3);
-t2=(xa2-xa1)/(a*t1); t4=(xa4-xa3)/(a*(t1-t3)); %xai为第i段结束后吊车的位移
-t2=t2+t1; t3=t2+t3; t4=t3+t4;%此时t为每段结束的时刻
-t=cell(4,1); theta=cell(4,1); x=cell(4,1); y=cell(4,1); %时间，角度，横纵坐标
-va=cell(4,1); va{2}=a*t1; va{4}=a*(t1+t2-t3);%吊车速度
-v=cell(4,1); Tx=cell(4,1); Ty=cell(4,1); T=cell(4,1); %水平速度，拉力,
-ax=cell(4,1); ay=cell(4,1);%水平竖直加速度
-thetamax=0; Tm=0; %实际最大的角度，拉力
+        classdef app1_exported < matlab.apps.AppBase
 
-if t2<0 || (t3-t2)>=t1 || (t2-t1)<0.1 || t4>120
-    Time=inf; Angle=inf; Tm=inf;
-    return;
-end
-
-%第一段加速
-dydt=@(t,y)[ y(2) ; (-a*y(2)*t*sin(y(1))+a*cos(y(1))-g*sin(y(1)))/l ];
-options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-[t{1},theta{1}] = ode45(dydt,[0:0.05:t1],[0 0],options);
-x{1}=0.5*a*t{1}.^2-l*sin(theta{1}(:,1));
-v{1}=a*t{1}-l*theta{1}(:,2).*cos(theta{1}(:,1));
-
-%第二段匀速
-dydt=@(t,y)[ y(2) ; (1/l)*(va{2}*y(2)*sin(y(1))-(va{2}+g)*sin(y(1))) ];
-options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-[t{2},theta{2}] = ode45(dydt,[t1:0.05:t2],[theta{1}(length(theta{1}(:,1)),1) theta{1}(length(theta{1}(:,2)),2)],options);
-x{2}=xa1+a*t1*(t{2}-t1)-l*sin(theta{2}(:,1));
-v{2}=a*t1-l*theta{2}(:,2).*cos(theta{2}(:,1));
-
-%第三段减速
-dydt=@(t,y)[ y(2) ; (-a*y(2)*(t1+t2-t)*sin(y(1))-a*cos(y(1))-g*sin(y(1)))/l ];
-options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-[t{3},theta{3}] = ode45(dydt,[t2:0.05:t3],[theta{2}(length(theta{2}(:,1)),1) theta{2}(length(theta{2}(:,2)),2)],options);
-x{3}=xa2+a*t1*(t{3}-t2)-0.5*a*(t{3}-t2).^2-l*sin(theta{3}(:,1));
-v{3}=a*(t1+t2-t{3})-l*theta{3}(:,2).*cos(theta{3}(:,1));
-
-%第四段匀速
-dydt=@(t,y)[ y(2) ; (1/l)*(va{4}*y(2)*sin(y(1))-(va{4}+g)*sin(y(1))) ];
-options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-[t{4},theta{4}] = ode45(dydt,[t3:0.05:t4],[theta{3}(length(theta{3}(:,1)),1) theta{3}(length(theta{3}(:,2)),2)],options);
-x{4}=xa3+a*(t1+t2-t3)*(t{4}-t3)-l*sin(theta{4}(:,1));
-v{4}=a*(t1+t2-t3)-l*theta{4}(:,2).*cos(theta{4}(:,1));
-thetamax=max(theta{4}(:,1));
-
-for i=1:4
-    y{i}=l*cos(theta{i}(:,1));
-    ax{i}=gradient(v{i},0.05);
-    Tx{i}=m*ax{i};
-    ay{i}=-1*(gradient(theta{i}(:,2),0.05).*sin(theta{i}(:,1)) + cos(theta{i}(:,1)).*theta{i}(:,2).^2);
-    Ty{i}=m*(g-l*ay{i});
-    T{i}=(Tx{i}.^2 + Ty{i}.^2).^0.5;
-    Tm=max(Tm,max(T{i}));
-    for k = 1:length(x{i})
-        addpoints(h,x{i}(k),-y{i}(k));
-        drawnow limitrate
-        pause(0.0000007);
+        % Properties that correspond to app components
+        properties (Access = public)
+            UIFigure            matlab.ui.Figure
+            GridLayout          matlab.ui.container.GridLayout
+            LeftPanel           matlab.ui.container.Panel
+            t1EditFieldLabel    matlab.ui.control.Label
+            t1EditField         matlab.ui.control.NumericEditField
+            t3EditFieldLabel    matlab.ui.control.Label
+            t3EditField         matlab.ui.control.NumericEditField
+            Button              matlab.ui.control.Button
+            Label_2             matlab.ui.control.Label
+            Slider              matlab.ui.control.Slider
+            RightPanel          matlab.ui.container.Panel
+            UIAxes              matlab.ui.control.UIAxes
+            TimeTextAreaLabel   matlab.ui.control.Label
+            Time                matlab.ui.control.TextArea
+            AngleTextAreaLabel  matlab.ui.control.Label
+            Angle               matlab.ui.control.TextArea
+            MmaxTextAreaLabel   matlab.ui.control.Label
+            Mmax                matlab.ui.control.TextArea
+        end
+    
+        % Properties that correspond to apps with auto-reflow
+        properties (Access = private)
+            onePanelWidth = 576;
+        end
+    
+        
+        properties (Access = public)
+            a1 % Description
+            t_1
+            t_3
+            h
+        end
+        
+    
+        % Callbacks that handle component events
+        methods (Access = private)
+    
+            % Code that executes after component creation
+            function startupFcn(app, a1, t_1, t_3)
+                app.h = animatedline(app.UIAxes);
+            end
+    
+            % Changes arrangement of the app based on UIFigure width
+            function updateAppLayout(app, event)
+                currentFigureWidth = app.UIFigure.Position(3);
+                if(currentFigureWidth <= app.onePanelWidth)
+                    % Change to a 2x1 grid
+                    app.GridLayout.RowHeight = {480, 480};
+                    app.GridLayout.ColumnWidth = {'1x'};
+                    app.RightPanel.Layout.Row = 2;
+                    app.RightPanel.Layout.Column = 1;
+                else
+                    % Change to a 1x2 grid
+                    app.GridLayout.RowHeight = {'1x'};
+                    app.GridLayout.ColumnWidth = {171, '1x'};
+                    app.RightPanel.Layout.Row = 1;
+                    app.RightPanel.Layout.Column = 2;
+                end
+            end
+    
+            % Callback function: Angle, Button, Mmax
+            function ButtonPushed(app, event)
+                %clf(app.UIAxes);
+                app.h.LineWidth=0.7;
+                app.h.Color='r';
+                [app.Time.Value,app.Angle.Value,app.Mmax.Value]=funcapp(app.a1,app.t_1,app.t_3,app.h);
+            end
+    
+            % Callback function
+            function EditFieldValueChanged(app, event)
+                value = app.EditField.Value;
+                app.a1=value;
+            end
+    
+            % Value changed function: t1EditField
+            function t1EditFieldValueChanged(app, event)
+                value = app.t1EditField.Value;
+                app.t_1=value;
+            end
+    
+            % Value changed function: t3EditField
+            function t3EditFieldValueChanged(app, event)
+                value = app.t3EditField.Value;
+                app.t_3=value;
+            end
+    
+            % Value changed function: Slider
+            function SliderValueChanged(app, event)
+                value = app.Slider.Value;
+                app.a1=value;
+            end
+    
+            % Callback function
+            function UITableDisplayDataChanged(app, event)
+          
+                
+            end
+    
+            % Callback function
+            function UITableCellEdit(app, event)
+                
+            end
+    
+            % Value changed function: Time
+            function TimeValueChanged(app, event)
+    
+                
+            end
+        end
+    
+        % Component initialization
+        methods (Access = private)
+    
+            % Create UIFigure and components
+            function createComponents(app)
+    
+                % Create UIFigure and hide until all components are created
+                app.UIFigure = uifigure('Visible', 'off');
+                app.UIFigure.AutoResizeChildren = 'off';
+                app.UIFigure.Position = [100 100 640 480];
+                app.UIFigure.Name = 'MATLAB App';
+                app.UIFigure.SizeChangedFcn = createCallbackFcn(app, @updateAppLayout, true);
+    
+                % Create GridLayout
+                app.GridLayout = uigridlayout(app.UIFigure);
+                app.GridLayout.ColumnWidth = {171, '1x'};
+                app.GridLayout.RowHeight = {'1x'};
+                app.GridLayout.ColumnSpacing = 0;
+                app.GridLayout.RowSpacing = 0;
+                app.GridLayout.Padding = [0 0 0 0];
+                app.GridLayout.Scrollable = 'on';
+    
+                % Create LeftPanel
+                app.LeftPanel = uipanel(app.GridLayout);
+                app.LeftPanel.TitlePosition = 'centertop';
+                app.LeftPanel.Title = '可调参数';
+                app.LeftPanel.Layout.Row = 1;
+                app.LeftPanel.Layout.Column = 1;
+    
+                % Create t1EditFieldLabel
+                app.t1EditFieldLabel = uilabel(app.LeftPanel);
+                app.t1EditFieldLabel.HorizontalAlignment = 'right';
+                app.t1EditFieldLabel.Position = [17 263 25 22];
+                app.t1EditFieldLabel.Text = 't1';
+    
+                % Create t1EditField
+                app.t1EditField = uieditfield(app.LeftPanel, 'numeric');
+                app.t1EditField.ValueChangedFcn = createCallbackFcn(app, @t1EditFieldValueChanged, true);
+                app.t1EditField.Position = [57 263 100 22];
+    
+                % Create t3EditFieldLabel
+                app.t3EditFieldLabel = uilabel(app.LeftPanel);
+                app.t3EditFieldLabel.HorizontalAlignment = 'right';
+                app.t3EditFieldLabel.Position = [16 226 25 22];
+                app.t3EditFieldLabel.Text = 't3';
+    
+                % Create t3EditField
+                app.t3EditField = uieditfield(app.LeftPanel, 'numeric');
+                app.t3EditField.ValueChangedFcn = createCallbackFcn(app, @t3EditFieldValueChanged, true);
+                app.t3EditField.Position = [56 226 100 22];
+    
+                % Create Button
+                app.Button = uibutton(app.LeftPanel, 'push');
+                app.Button.ButtonPushedFcn = createCallbackFcn(app, @ButtonPushed, true);
+                app.Button.Position = [36 166 100 24];
+                app.Button.Text = '演示';
+    
+                % Create Label_2
+                app.Label_2 = uilabel(app.LeftPanel);
+                app.Label_2.HorizontalAlignment = 'right';
+                app.Label_2.Position = [8 311 41 22];
+                app.Label_2.Text = '加速度';
+    
+                % Create Slider
+                app.Slider = uislider(app.LeftPanel);
+                app.Slider.Limits = [0 1];
+                app.Slider.ValueChangedFcn = createCallbackFcn(app, @SliderValueChanged, true);
+                app.Slider.Position = [59 332 99 3];
+    
+                % Create RightPanel
+                app.RightPanel = uipanel(app.GridLayout);
+                app.RightPanel.TitlePosition = 'centertop';
+                app.RightPanel.Title = '龙门吊演示';
+                app.RightPanel.BackgroundColor = [0.9412 0.9412 0.9412];
+                app.RightPanel.Layout.Row = 1;
+                app.RightPanel.Layout.Column = 2;
+    
+                % Create UIAxes
+                app.UIAxes = uiaxes(app.RightPanel);
+                title(app.UIAxes, '位置示意图')
+                xlabel(app.UIAxes, 'X')
+                ylabel(app.UIAxes, 'Y')
+                app.UIAxes.XLim = [0 100];
+                app.UIAxes.YLim = [-15 -14.75];
+                app.UIAxes.XGrid = 'on';
+                app.UIAxes.TitleFontWeight = 'bold';
+                app.UIAxes.Position = [10 197 438 250];
+    
+                % Create TimeTextAreaLabel
+                app.TimeTextAreaLabel = uilabel(app.RightPanel);
+                app.TimeTextAreaLabel.HorizontalAlignment = 'right';
+                app.TimeTextAreaLabel.Position = [42 155 32 22];
+                app.TimeTextAreaLabel.Text = 'Time';
+    
+                % Create Time
+                app.Time = uitextarea(app.RightPanel);
+                app.Time.ValueChangedFcn = createCallbackFcn(app, @TimeValueChanged, true);
+                app.Time.Tag = 'Time';
+                app.Time.Position = [89 155 150 24];
+    
+                % Create AngleTextAreaLabel
+                app.AngleTextAreaLabel = uilabel(app.RightPanel);
+                app.AngleTextAreaLabel.HorizontalAlignment = 'right';
+                app.AngleTextAreaLabel.Position = [38 99 36 22];
+                app.AngleTextAreaLabel.Text = 'Angle';
+    
+                % Create Angle
+                app.Angle = uitextarea(app.RightPanel);
+                app.Angle.ValueChangedFcn = createCallbackFcn(app, @ButtonPushed, true);
+                app.Angle.Tag = 'Angle';
+                app.Angle.Position = [89 99 150 24];
+    
+                % Create MmaxTextAreaLabel
+                app.MmaxTextAreaLabel = uilabel(app.RightPanel);
+                app.MmaxTextAreaLabel.HorizontalAlignment = 'right';
+                app.MmaxTextAreaLabel.Position = [36 36 38 22];
+                app.MmaxTextAreaLabel.Text = 'Mmax';
+    
+                % Create Mmax
+                app.Mmax = uitextarea(app.RightPanel);
+                app.Mmax.ValueChangedFcn = createCallbackFcn(app, @ButtonPushed, true);
+                app.Mmax.Tag = 'Mmax';
+                app.Mmax.Position = [89 36 150 24];
+    
+                % Show the figure after all components are created
+                app.UIFigure.Visible = 'on';
+            end
+        end
+    
+        % App creation and deletion
+        methods (Access = public)
+    
+            % Construct app
+            function app = app1_exported(varargin)
+    
+                % Create UIFigure and components
+                createComponents(app)
+    
+                % Register the app with App Designer
+                registerApp(app, app.UIFigure)
+    
+                % Execute the startup function
+                runStartupFcn(app, @(app)startupFcn(app, varargin{:}))
+    
+                if nargout == 0
+                    clear app
+                end
+            end
+    
+            % Code that executes before app deletion
+            function delete(app)
+    
+                % Delete UIFigure when app is deleted
+                delete(app.UIFigure)
+            end
+        end
     end
-    drawnow
-    %         p=plot(UIAxes,x{i},-y{i},'linewidth',1.5);
-    %       hold(h,'on' );
-end
-
-E4 = 0.5*m*(v{4}(length(v{4}))^2 + (l*theta{4}(length(theta{4}(:,2)),2)*sin(theta{4}(length(theta{4}(:,1)),1)))^2);
-vcx=(2*E4/m + 2*g*l*(1-cos(theta{4}(length(theta{4}(:,1)),1))))^0.5;
-thetamax=max(thetamax,acos(1-E4/(m*g*l)));
-
-vcx=max(vcx,max(v{4}));
-% if Tm>Tmax || vcx>0.5 %若拉力超限，最终速度超限
-%     Time=inf; Angle=inf;
-%     return;
-% end
-Time=num2str(t4); Angle=num2str(thetamax); Mmax=num2str(m*Tmax/Tm); 
      \end{lstlisting}
-     \section{MATLAB总程序}
-     \begin{lstlisting}[language=matlab]
-        %a=0.5; t1=8; t2=8; t3=7.6;
-        % clear;
-        % min=1000000;
-        % Ans=[];
-        % for i=5:0.1:10 %多起点进行最小值搜索
-        %     for j=i-2:0.1:i
-        %         [i,j]
-        %         [x,out]=fminsearch('func1',[i,j]);
-        %         if out<min
-        %             real=[x,out];
-        %             min=out;
-        %         end
-        %         if out < 0.022
-        %             Ans=[Ans; x,out]
-        %         end
-        %     end
-        % end
-        
-        %[x,out]=fminsearch('func1',[5.5725,5.2500]);
-        [Time, Angle, Mm]=func(0.5,5.5725,5.25);
-        % grid on;
-        
-        %axis equal;
-        %Angle=func1([5.572f5,5.2500]);
-        % for i=1:length(Ans(:,1))
-        %     [Time, Angle, Tm]=func(0.5,Ans(i,1),Ans(i,2));
-        %     Ans(i,4)=Time;
-        % end
-     \end{lstlisting}
-     \section{问题二源程序}
+     \section{第二问代码}
      \begin{lstlisting}[language=matlab]
         thetamin=min(Ans(:,3)); thetamax=max(Ans(:,3));
         tmin=min(Ans(:,4)); tmax=max(Ans(:,4));
@@ -550,6 +714,5 @@ Time=num2str(t4); Angle=num2str(thetamax); Mmax=num2str(m*Tmax/Tm);
             Ans(i,3)=Ans(i,3)*180/pi;
         end
      \end{lstlisting}
-     
 \end{appendices}
 \end{document}
