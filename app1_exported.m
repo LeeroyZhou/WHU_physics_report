@@ -27,36 +27,14 @@ classdef app1_exported < matlab.apps.AppBase
         t_1
         t_3
     end
+    
 
     % Callbacks that handle component events
     methods (Access = private)
 
         % Code that executes after component creation
         function startupFcn(app, a1, t_1, t_3)
-
-        end
-
-        % Button pushed function: Button
-        function ButtonPushed(app, event)
-            func(app.a1,app.t_1,app.t_3);
-        end
-
-        % Value changed function: EditField
-        function EditFieldValueChanged(app, event)
-            value = app.EditField.Value;
-            app.a1=value;
-        end
-
-        % Value changed function: t1EditField
-        function t1EditFieldValueChanged(app, event)
-            value = app.t1EditField.Value;
-            app.t_1=value;
-        end
-
-        % Value changed function: t3EditField
-        function t3EditFieldValueChanged(app, event)
-            value = app.t3EditField.Value;
-            app.t_3=value;
+            
         end
 
         % Changes arrangement of the app based on UIFigure width
@@ -75,6 +53,29 @@ classdef app1_exported < matlab.apps.AppBase
                 app.RightPanel.Layout.Row = 1;
                 app.RightPanel.Layout.Column = 2;
             end
+        end
+
+        % Button pushed function: Button
+        function ButtonPushed(app, event)
+            funcapp(app.a1,app.t_1,app.t_3,app.UIAxes);
+        end
+
+        % Value changed function: EditField
+        function EditFieldValueChanged(app, event)
+            value = app.EditField.Value;
+            app.a1=value;
+        end
+
+        % Value changed function: t1EditField
+        function t1EditFieldValueChanged(app, event)
+            value = app.t1EditField.Value;
+            app.t_1=value;
+        end
+
+        % Value changed function: t3EditField
+        function t3EditFieldValueChanged(app, event)
+            value = app.t3EditField.Value;
+            app.t_3=value;
         end
     end
 
@@ -109,7 +110,7 @@ classdef app1_exported < matlab.apps.AppBase
             app.Label = uilabel(app.LeftPanel);
             app.Label.HorizontalAlignment = 'right';
             app.Label.Position = [7 346 41 22];
-            app.Label.Text = 'ÿÿÿ';
+            app.Label.Text = '¼ÓËÙ¶È';
 
             % Create EditField
             app.EditField = uieditfield(app.LeftPanel, 'numeric');
@@ -142,7 +143,7 @@ classdef app1_exported < matlab.apps.AppBase
             app.Button = uibutton(app.LeftPanel, 'push');
             app.Button.ButtonPushedFcn = createCallbackFcn(app, @ButtonPushed, true);
             app.Button.Position = [36 194 100 24];
-            app.Button.Text = 'ÿÿ';
+            app.Button.Text = 'ÑÝÊ¾';
 
             % Create RightPanel
             app.RightPanel = uipanel(app.GridLayout);
@@ -151,11 +152,11 @@ classdef app1_exported < matlab.apps.AppBase
 
             % Create UIAxes
             app.UIAxes = uiaxes(app.RightPanel);
-            title(app.UIAxes, 'ÿÿ')
-            xlabel(app.UIAxes, 'x')
-            ylabel(app.UIAxes, 'y')
+            title(app.UIAxes, 'Title')
+            xlabel(app.UIAxes, 'X')
+            ylabel(app.UIAxes, 'Y')
             app.UIAxes.TitleFontWeight = 'bold';
-            app.UIAxes.Position = [97 170 300 185];
+            app.UIAxes.Position = [54 126 328 266];
 
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';
@@ -166,7 +167,7 @@ classdef app1_exported < matlab.apps.AppBase
     methods (Access = public)
 
         % Construct app
-        function app = app1_exported(varargin)
+        function app = app1(varargin)
 
             % Create UIFigure and components
             createComponents(app)
