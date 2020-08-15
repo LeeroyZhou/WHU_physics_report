@@ -2,18 +2,24 @@ classdef app1_exported < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        UIFigure          matlab.ui.Figure
-        GridLayout        matlab.ui.container.GridLayout
-        LeftPanel         matlab.ui.container.Panel
-        Label             matlab.ui.control.Label
-        EditField         matlab.ui.control.NumericEditField
-        t1EditFieldLabel  matlab.ui.control.Label
-        t1EditField       matlab.ui.control.NumericEditField
-        t3EditFieldLabel  matlab.ui.control.Label
-        t3EditField       matlab.ui.control.NumericEditField
-        Button            matlab.ui.control.Button
-        RightPanel        matlab.ui.container.Panel
-        UIAxes            matlab.ui.control.UIAxes
+        UIFigure            matlab.ui.Figure
+        GridLayout          matlab.ui.container.GridLayout
+        LeftPanel           matlab.ui.container.Panel
+        t1EditFieldLabel    matlab.ui.control.Label
+        t1EditField         matlab.ui.control.NumericEditField
+        t3EditFieldLabel    matlab.ui.control.Label
+        t3EditField         matlab.ui.control.NumericEditField
+        Button              matlab.ui.control.Button
+        Label_2             matlab.ui.control.Label
+        Slider              matlab.ui.control.Slider
+        RightPanel          matlab.ui.container.Panel
+        UIAxes              matlab.ui.control.UIAxes
+        TimeTextAreaLabel   matlab.ui.control.Label
+        Time                matlab.ui.control.TextArea
+        AngleTextAreaLabel  matlab.ui.control.Label
+        Angle               matlab.ui.control.TextArea
+        MmaxTextAreaLabel   matlab.ui.control.Label
+        Mmax                matlab.ui.control.TextArea
     end
 
     % Properties that correspond to apps with auto-reflow
@@ -26,6 +32,7 @@ classdef app1_exported < matlab.apps.AppBase
         a1 % Description
         t_1
         t_3
+        h
     end
     
 
@@ -34,7 +41,7 @@ classdef app1_exported < matlab.apps.AppBase
 
         % Code that executes after component creation
         function startupFcn(app, a1, t_1, t_3)
-            
+            app.h = animatedline(app.UIAxes);
         end
 
         % Changes arrangement of the app based on UIFigure width
@@ -55,12 +62,15 @@ classdef app1_exported < matlab.apps.AppBase
             end
         end
 
-        % Button pushed function: Button
+        % Callback function: Angle, Button, Mmax
         function ButtonPushed(app, event)
-            funcapp(app.a1,app.t_1,app.t_3,app.UIAxes);
+            %clf(app.UIAxes);
+            app.h.LineWidth=0.7;
+            app.h.Color='r';
+            [app.Time.Value,app.Angle.Value,app.Mmax.Value]=funcapp(app.a1,app.t_1,app.t_3,app.h);
         end
 
-        % Value changed function: EditField
+        % Callback function
         function EditFieldValueChanged(app, event)
             value = app.EditField.Value;
             app.a1=value;
@@ -76,6 +86,29 @@ classdef app1_exported < matlab.apps.AppBase
         function t3EditFieldValueChanged(app, event)
             value = app.t3EditField.Value;
             app.t_3=value;
+        end
+
+        % Value changed function: Slider
+        function SliderValueChanged(app, event)
+            value = app.Slider.Value;
+            app.a1=value;
+        end
+
+        % Callback function
+        function UITableDisplayDataChanged(app, event)
+      
+            
+        end
+
+        % Callback function
+        function UITableCellEdit(app, event)
+            
+        end
+
+        % Value changed function: Time
+        function TimeValueChanged(app, event)
+
+            
         end
     end
 
@@ -103,60 +136,105 @@ classdef app1_exported < matlab.apps.AppBase
 
             % Create LeftPanel
             app.LeftPanel = uipanel(app.GridLayout);
+            app.LeftPanel.TitlePosition = 'centertop';
+            app.LeftPanel.Title = 'ÿÿÿÿ';
             app.LeftPanel.Layout.Row = 1;
             app.LeftPanel.Layout.Column = 1;
-
-            % Create Label
-            app.Label = uilabel(app.LeftPanel);
-            app.Label.HorizontalAlignment = 'right';
-            app.Label.Position = [7 346 41 22];
-            app.Label.Text = '¼ÓËÙ¶È';
-
-            % Create EditField
-            app.EditField = uieditfield(app.LeftPanel, 'numeric');
-            app.EditField.ValueChangedFcn = createCallbackFcn(app, @EditFieldValueChanged, true);
-            app.EditField.Position = [63 346 100 22];
 
             % Create t1EditFieldLabel
             app.t1EditFieldLabel = uilabel(app.LeftPanel);
             app.t1EditFieldLabel.HorizontalAlignment = 'right';
-            app.t1EditFieldLabel.Position = [26 308 25 22];
+            app.t1EditFieldLabel.Position = [17 263 25 22];
             app.t1EditFieldLabel.Text = 't1';
 
             % Create t1EditField
             app.t1EditField = uieditfield(app.LeftPanel, 'numeric');
             app.t1EditField.ValueChangedFcn = createCallbackFcn(app, @t1EditFieldValueChanged, true);
-            app.t1EditField.Position = [66 308 100 22];
+            app.t1EditField.Position = [57 263 100 22];
 
             % Create t3EditFieldLabel
             app.t3EditFieldLabel = uilabel(app.LeftPanel);
             app.t3EditFieldLabel.HorizontalAlignment = 'right';
-            app.t3EditFieldLabel.Position = [23 272 25 22];
+            app.t3EditFieldLabel.Position = [16 226 25 22];
             app.t3EditFieldLabel.Text = 't3';
 
             % Create t3EditField
             app.t3EditField = uieditfield(app.LeftPanel, 'numeric');
             app.t3EditField.ValueChangedFcn = createCallbackFcn(app, @t3EditFieldValueChanged, true);
-            app.t3EditField.Position = [63 272 100 22];
+            app.t3EditField.Position = [56 226 100 22];
 
             % Create Button
             app.Button = uibutton(app.LeftPanel, 'push');
             app.Button.ButtonPushedFcn = createCallbackFcn(app, @ButtonPushed, true);
-            app.Button.Position = [36 194 100 24];
-            app.Button.Text = 'ÑÝÊ¾';
+            app.Button.Position = [36 166 100 24];
+            app.Button.Text = 'ÿÿ';
+
+            % Create Label_2
+            app.Label_2 = uilabel(app.LeftPanel);
+            app.Label_2.HorizontalAlignment = 'right';
+            app.Label_2.Position = [8 311 41 22];
+            app.Label_2.Text = 'ÿÿÿ';
+
+            % Create Slider
+            app.Slider = uislider(app.LeftPanel);
+            app.Slider.Limits = [0 1];
+            app.Slider.ValueChangedFcn = createCallbackFcn(app, @SliderValueChanged, true);
+            app.Slider.Position = [59 332 99 3];
 
             % Create RightPanel
             app.RightPanel = uipanel(app.GridLayout);
+            app.RightPanel.TitlePosition = 'centertop';
+            app.RightPanel.Title = 'ÿÿÿÿÿ';
+            app.RightPanel.BackgroundColor = [0.9412 0.9412 0.9412];
             app.RightPanel.Layout.Row = 1;
             app.RightPanel.Layout.Column = 2;
 
             % Create UIAxes
             app.UIAxes = uiaxes(app.RightPanel);
-            title(app.UIAxes, 'Title')
+            title(app.UIAxes, 'ÿÿÿÿÿ')
             xlabel(app.UIAxes, 'X')
             ylabel(app.UIAxes, 'Y')
+            app.UIAxes.XLim = [0 100];
+            app.UIAxes.YLim = [-15 -14.5];
+            app.UIAxes.XGrid = 'on';
             app.UIAxes.TitleFontWeight = 'bold';
-            app.UIAxes.Position = [54 126 328 266];
+            app.UIAxes.Position = [10 197 438 250];
+
+            % Create TimeTextAreaLabel
+            app.TimeTextAreaLabel = uilabel(app.RightPanel);
+            app.TimeTextAreaLabel.HorizontalAlignment = 'right';
+            app.TimeTextAreaLabel.Position = [42 155 32 22];
+            app.TimeTextAreaLabel.Text = 'Time';
+
+            % Create Time
+            app.Time = uitextarea(app.RightPanel);
+            app.Time.ValueChangedFcn = createCallbackFcn(app, @TimeValueChanged, true);
+            app.Time.Tag = 'Time';
+            app.Time.Position = [89 155 150 24];
+
+            % Create AngleTextAreaLabel
+            app.AngleTextAreaLabel = uilabel(app.RightPanel);
+            app.AngleTextAreaLabel.HorizontalAlignment = 'right';
+            app.AngleTextAreaLabel.Position = [38 99 36 22];
+            app.AngleTextAreaLabel.Text = 'Angle';
+
+            % Create Angle
+            app.Angle = uitextarea(app.RightPanel);
+            app.Angle.ValueChangedFcn = createCallbackFcn(app, @ButtonPushed, true);
+            app.Angle.Tag = 'Angle';
+            app.Angle.Position = [89 99 150 24];
+
+            % Create MmaxTextAreaLabel
+            app.MmaxTextAreaLabel = uilabel(app.RightPanel);
+            app.MmaxTextAreaLabel.HorizontalAlignment = 'right';
+            app.MmaxTextAreaLabel.Position = [36 36 38 22];
+            app.MmaxTextAreaLabel.Text = 'Mmax';
+
+            % Create Mmax
+            app.Mmax = uitextarea(app.RightPanel);
+            app.Mmax.ValueChangedFcn = createCallbackFcn(app, @ButtonPushed, true);
+            app.Mmax.Tag = 'Mmax';
+            app.Mmax.Position = [89 36 150 24];
 
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';
@@ -167,7 +245,7 @@ classdef app1_exported < matlab.apps.AppBase
     methods (Access = public)
 
         % Construct app
-        function app = app1(varargin)
+        function app = app1_exported(varargin)
 
             % Create UIFigure and components
             createComponents(app)
