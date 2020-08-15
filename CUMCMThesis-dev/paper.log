@@ -1432,4 +1432,94 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\leavevmode@ifvm
+(hyperref)                removing `\leavevmode@ifvmode' on input line 160.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 160.
+
+File: p1x.png Graphic file (type bmp)
+<p1x.png>
+File: p1theta.png Graphic file (type bmp)
+<p1theta.png>
+
+Package fontspec Info: Could not resolve font "SimSun/BI" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: Could not resolve font "SimSun/B" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: Could not resolve font "SimSun/I" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: Font family 'SimSun(1)' created for font 'SimSun' with
+(fontspec)             options [Script={CJK}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"SimSun/OT:script=hani;language=DFLT;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+
+
+LaTeX Font Warning: Font shape `TU/SimSun(1)/bx/n' undefined
+(Font)              using `TU/SimSun(1)/m/n' instead on input line 176.
+
+[6]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 180.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 180.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 180.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 180.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[7]
+File: p2x.png Graphic file (type bmp)
+<p2x.png>
+File: p2theta.png Graphic file (type bmp)
+<p2theta.png>
+ [8]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 222.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 222.
+ (./paper.aux)
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 222.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 222.
+Package rerunfilecheck Info: File `paper.out' has not changed.
+(rerunfilecheck)             Checksum: F2FC839B00F2583598A1939FF8D8C6BB.
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 40960 strings out of 494432
+ 836247 string characters out of 6165728
+ 901889 words of memory out of 5000000
+ 44301 multiletter control sequences out of 15000+600000
+ 548102 words of font info for 140 fonts, out of 8000000 for 9000
+ 286 hyphenation exceptions out of 8191
+ 62i,11n,82p,805b,664s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on paper.pdf (8 pages).
