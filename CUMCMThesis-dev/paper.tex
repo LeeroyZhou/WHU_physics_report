@@ -159,13 +159,28 @@ $$\text{s.t.}\left \{\begin{array}{l}
 
 \subsection{第一问的求解}
 考虑到动力学模型的最大摆角——$(t_1,t_3)$不是线性关系，在特定区间的取值由于不满足模型限制而返回极大值，因此很难通过一次简单的优化过程找到最优解。为此我们使用了在多个起点运行区域极小值的搜索函数，具体而言是使用了matlab的fminsearch函数，在$t_1=[3,12],\quad t_3=[t_1-2,t_1]$的范围均匀取初始点多次运行，找到若干局部较优解，再从中取$\theta_{max}$最小的解作为最终解。运行后得到当$(t_1,t_2,t_3,t_4)=(5.57s,15.97s,5.2s,93.02s)$时，货物在BC段的最大摆角$\theta_{max}=0.48^{\circ}$。这种情况下的货物$\theta(t),x(t)$曲线如下图所示。(不同颜色的线条代表4段不同的运动过程)
-
-\centerline{\includegraphics[width=10cm]{p1x.png}}
-\centerline{\includegraphics[width=10cm]{p1theta.png}}
+\begin{figure}[!h]
+    \centering
+    \begin{minipage}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{p1x.png}
+        %\subcaption{时间-x坐标图像}
+        \label{fig:sample-figure-a}
+    \end{minipage}
+    \begin{minipage}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{p1theta.png}
+        %\subcaption{时间-摆角图像}
+        \label{fig:sample-figure-b}
+    \end{minipage}
+    \caption{$\theta(t)\quad x(t)$图像}
+    \label{fig:sample-figure}
+\end{figure}
 
 \subsection{第二问的求解}
 第二问在第一问的基础上增加了对吊运效率的考虑，也就是使吊运时间越短越好。为此，我们采取了先找出最大摆角接近第一问解得的最小值的若干解，再对这些解的摆角和时间使用逼近理想解排序法进行排序，取结果最好的一个作为问题的解。我们使用第一问的程序找出所有BC段最大摆角小于$1.89^{\circ}$的解，即找到$\theta_{max}$在三倍最小值的范围内的所有解，共得到了30组解，观察发现其中摆角最大的是$1.43^{\circ}$，且其用时为两分钟；其余的解都要比这个更好；我们又发现在所有的解当中，用时最短的是$82.14s$。因此我们以最小值$\theta_{max}=0.63^{\circ},t=82.14s$,和最大值$\theta_{max}=1.43^{\circ},t=120s$使用极差标准化解出每种解的效益性指标属性值$a_{\theta i}=\frac{\theta_i-0.63^{\circ}}{1.43^{\circ}-0.63^{\circ}},\quad a_{ti}=\frac{t_i-82.14s}{120s-82.14s}$。令理想解为两属性值都取最小值，负理想解为两属性值都取最大值。取对摆角和时间的权值分别为$(w_{\theta},w_t)=(0.6,0.4),(0.5,0.5),(0.7,0.3)$三种权值组合,求得每组解与理想解与负理想解的加权欧氏距离$d^+,d^-$,最后得到每组解与理想解的贴近度$c_i=\frac{d^-}{d^++d^-}$,对其排序后得到贴近度最大的几组解如下表：
-\begin{table}[]
+\begin{table}[!h]
+    \centering
     \begin{tabular}{|c|c|c|c|c|}
     \hline
     序号 & $t_1/s$ & $t_3/s$ & $\theta_{max}/^{\circ}$ & $t/s$    \\ \hline
@@ -176,11 +191,25 @@ $$\text{s.t.}\left \{\begin{array}{l}
     5  & 8.03 & 7.70 & 0.75                    & 112.65 \\ \hline
     \end{tabular}
     \end{table}
-
+\newpage
 在三种权值组合下，序号1的解与理想解的贴近度始终最大，于是取序号为1的解作为问题2的答案。此时$(t_1,t_2,t_3,t_4)=(5.57s,16.00s,5.08s,61.25s)$,摆角和吊运时间为$\theta_{max}=0.96^{\circ},t=87.9s$。该吊运过程的$\theta(t),x(t)$曲线如下图所示。
-
-\centerline{\includegraphics[width=10cm]{p2x.png}}
-\centerline{\includegraphics[width=10cm]{p2theta.png}}
+\begin{figure}[!h]
+    \centering
+    \begin{minipage}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{p2x.png}
+        %\subcaption{时间-x坐标图像}
+        \label{fig:sample-figure-a}
+    \end{minipage}
+    \begin{minipage}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{p2theta.png}
+        %\subcaption{时间-摆角图像}
+        \label{fig:sample-figure-b}
+    \end{minipage}
+    \caption{$\theta(t)\quad x(t)$图像}
+    \label{fig:sample-figure}
+\end{figure}
 
 \section{模型检验}
 \section{总结与推广}
