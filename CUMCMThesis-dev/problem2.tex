@@ -1,3 +1,6 @@
+\section{问题二的建模与求解}
+\subsection{问题二的分析}
+问题一解得的结果仅是已经结束的项目的任务定价模型，问题二进一步要求改进这一项目的定价，这实际上是一个调整定价使APP取得最大效益的优化问题。在APP开发者的角度，高效益应当是付出尽可能少的酬金，完成尽可能多的任务。为了预测项目在某种定价方式下的完成度，我们需要建立会员根据已有的定价选择任务的模型，根据题目的规定和现实生活中的经验，我们提出会员在选择任务时应当遵循以“吸引度”、信誉优先、时间次序的原则，由此可以得到在已知定价的情况下求解任务完成情况的方法。我们可以通过已完成的任务调整模型中的参数，然后可以用这一模型求解定价的优化问题。
 \subsection{双目标优化模型的建立}
 \subsubsection{目标函数确定}
 通过对于问题的分析，新的任务定价方案与旧的定价方案相比，应该满足两个优化条件：成本更少、任务完成率更高。所以，本文将新的定价方案设计问题转化为双目标优化问题，目标函数如下：$$\left\{\begin{array}{l}
@@ -224,4 +227,49 @@ Step5：方案及完成度结果
 结果，从而对比分析得到近似最优解。
 
 \subsubsection{模型求解结果}
+在对模型求解时，设定几组不同的价格调整比例，得到835 个任务的定价以
+及任务完成度.由于结果数据庞大，此处只展示部分结果：
+
+% Please add the following required packages to your document preamble:
+% \usepackage{longtable}
+% Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
+\begin{longtable}[c]{cccccc}
+    \caption{定价及完成度}
+    \label{tab:my-table}\\
+    \hline
+            & 每单定价 & 70.56 & 83.31 & 64.20 & 83.31 \\
+    \endfirsthead
+    %
+    \endhead
+    %
+    \hline
+    \endfoot
+    %
+    \endlastfoot
+    %
+    a=1.08  & 完成与否 & 1     & 0     & 1     & 1     \\
+    b=0.99  & 成本   & \multicolumn{4}{c}{43,051}    \\
+            & 完成率  & \multicolumn{4}{c}{0.75}      \\
+            & 每单定价 & 72    & 85    & 65    & 85    \\
+    a=1.02  & 完成与否 & 1     & 1     & 1     & 1     \\
+    b=1     & 成本   & \multicolumn{4}{c}{56,926}    \\
+            & 完成率  & \multicolumn{4}{c}{0.98}      \\
+            & 每单定价 & 71.64 & 84.58 & 65.17 & 84.58 \\
+    a=1.02  & 完成与否 & 1     & 0     & 1     & 1     \\
+    b=0.995 & 成本   & \multicolumn{4}{c}{47,585}    \\
+            & 完成率  & \multicolumn{4}{c}{0.83}      \\
+            & 每单定价 & 71.86 & 84.83 & 65.37 & 84.83 \\
+    a=1.02  & 完成与否 & 1     & 1     & 1     & 1     \\
+    b=0.998 & 成本   & \multicolumn{4}{c}{54,356}    \\
+            & 完成率  & \multicolumn{4}{c}{0.94}      \\ \hline
+    \end{longtable}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{chengben.png}
+    \label{成本}
+\end{figure}
+在模型二给出的定价方案下，四组的成本及完成率情况如柱状图所示，其中
+蓝色的值表示成本的万分之一，黄色的值表示任务完成率。综合考虑目标函数的
+优化结果，选择第4组的任务定价方案作为最优定价方案。
 
