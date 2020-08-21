@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.22)  21 AUG 2020 20:21
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.3.22)  21 AUG 2020 20:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -2105,6 +2105,9 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [15]
 File: 150.png Graphic file (type bmp)
 <150.png>
+File: tasks.png Graphic file (type bmp)
+<tasks.png>
+ [16]
 File: 24.png Graphic file (type bmp)
 <24.png>
 File: 25.png Graphic file (type bmp)
@@ -2123,20 +2126,136 @@ File: 140.png Graphic file (type bmp)
 <140.png>
 File: 141.png Graphic file (type bmp)
 <141.png>
- [16] [17])
+ [17]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 157.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 157.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 157.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 157.
+
+[18] [19]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 228.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 228.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 228.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 228.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 229.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 229.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 229.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 229.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 229.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 229.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 229.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 229.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 236.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00876pt
+(hyperref)                removed on input line 236.
+
+[20])
 Underfull \hbox (badness 1603) in paragraph at lines 169--170
 []\TU/SimSun(0)/m/n/12.05 祝 胜 兰\TU/TimesNewRoman(0)/m/n/12.05 , \TU/SimSun(0)/m/n/12.05 饶 运 清\TU/TimesNewRoman(0)/m/n/12.05 . \TU/SimSun(0)/m/n/12.05 一 维 下 料 问 题 的 启 发 式 方 法 \TU/TimesNewRoman(0)/m/n/12.05 [J]. \TU/SimSun(0)/m/n/12.05 机 械 制 造 与 自 动 化\TU/TimesNewRoman(0)/m/n/12.05 , 2014,
  []
 
-[18]
+[21]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 174.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 174.
  (./paper.aux)
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 174.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 174.
-Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: EDE99852682C557D575D99BD18D26277.
 
+
+Package rerunfilecheck Warning: File `paper.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `paper.out':
+(rerunfilecheck)             Before: 1964A16E155AB7C06E722CD9AF9949FC
+(rerunfilecheck)             After:  BA0C18DF4527D12F214C88F2CDDF913F.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -2145,12 +2264,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 41092 strings out of 494432
- 842567 string characters out of 6165728
+ 41096 strings out of 494432
+ 842616 string characters out of 6165728
  908889 words of memory out of 5000000
- 44421 multiletter control sequences out of 15000+600000
+ 44424 multiletter control sequences out of 15000+600000
  540677 words of font info for 111 fonts, out of 8000000 for 9000
  286 hyphenation exceptions out of 8191
  62i,25n,82p,826b,669s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.pdf (18 pages).
+Output written on paper.pdf (21 pages).
