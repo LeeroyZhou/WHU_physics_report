@@ -1,6 +1,7 @@
 %\documentclass{cumcmthesis}
-    \documentclass[withoutpreface,bwprint]{cumcmthesis} %去掉封面与编号页
-\title{龙门吊问题的数学建模}
+\documentclass[withoutpreface,bwprint]{cumcmthesis} %去掉封面与编号页
+
+    \title{劳务众包APP的定价模型}
     \tihao{A}            % 题号
     \baominghao{042}    % 报名号
     \schoolname{武汉大学}
@@ -10,731 +11,91 @@
     \supervisor{指导老师}
     \yearinput{2020}     % 年
     \monthinput{08}      % 月
-    \dayinput{15}        % 日
+    \dayinput{21}        % 日
 
 \begin{document}
 \maketitle
 \begin{abstract}
-    对于港口装卸货物集装箱的龙门吊的吊运过程的求解与优化问题，本文建立了货物运动的动力学模型和摆角、效率的优化模型。首先，对于货物在吊运过程中的运动问题，由于这是一种完整约束下的具有一个自由度的平面运动，可以通过使用分析力学中的拉格朗日方程，解出在吊车处于4段不同运动状态下的货物的以摆角$\theta$为广义坐标的运动微分方程。使用Matlab软件数值求解微分方程可以得到货物在吊运过程中的运动状态。
+    “拍照赚钱”APP是。
 
-    对于前三问提出的不同的优化问题，我们可以通过不同的优化方法解出各问题的较优解。对于第一问最大摆角的优化问题，我们使用多起点寻找局部最小值的方法搜索可行的较优解，并取了其中摆角最小的一个作为答案：当$(t_1,t_2,t_3,t_4)=(5.57s,15.97s,5.2s,93.02s)$时，货物在BC段的最大摆角$\theta_{max}=0.54^{\circ}$。第二问在第一问的基础上增加了对吊运效率的考虑，由于货物质量固定，我们把吊运时间看作效率，通过对第一问搜出的许多局部较优解使用逼近理想解排序(TOPSIS)法和熵权法确定其中的较优解，我们得到的一组较优解为：$(t_1,t_2,t_3,t_4)=(5.57s,16.00s,5.08s,61.25s),\quad \theta_{max}=0.96^{\circ},t=87.9s$。第三问将加速度的取值考虑在内，且吊运过程中缆绳拉力不得超过其最大承载力。由于该问题中货物质量为可变值，我们重定义吊运效率为最大起吊货物质量与吊运所需时间之比。我们采用改进的非支配排序遗传算法（NSGA-II)在限制条件内搜索目标函数的帕累托最优解，对于解集中的每个解，也采用与第二问相同的熵权法和逼近理想解排序
-    法确定其在解集中排序。根据排序结果我们得到一组较优解为：$a=0.745m/s^2,(t_1,t_2,t_3,t_4)=(8s,2.01s,7.55s,50s)$，BC段最大摆角和吊运时间分别为$\theta_{max}=0.86^{\circ},t=61.69s$最大起吊货物重量$m_{max}=19784kg$。
-    
-
-    第四问要求设计一个可以直观演示吊运过程的图形界面，我们通过使用Matlab的图形界面设计工具，设计了一个能够在给定$a,t_i$的情况下给出货物的运动演示图的图形窗口。
-
-    \keywords{分析力学\quad  微分方程数值求解\quad   多起点优化\quad 遗传算法\quad GUI演示设计}
+    \keywords{劳务众包\quad  聚类分析\quad   灰色关联矩阵\quad   多目标优化\quad  }
 \end{abstract}
 %\tableofcontents
 \section{问题重述}
-%\subsection{问题的提出}
-某公司一货运码头，配备带有动力驱动的货运吊车。现需将货物从货运船的起吊点吊运到货运码头的终点，并且按照规定的方式进行运动，提出如下问题：
+“拍照赚钱”APP是一种基于移动互联网的自助式劳务众包平台，为企业提供各种商业检查和信息搜集服务。用户注册成为APP的会员，然后从APP上领取需要拍照的任务，赚取任务标定的酬金。APP中的任务定价是其运行的核心要素，如果定价不合理，有的任务就会无人问津，而导致商品检查的失败。
 
-(1)在不考虑吊车缆绳承载力的情况下，确定吊车运行方式，即建立模型，确定时间的大小，使得货物从岸边到终点，其间摆动最小，且整个吊运时间不超过2分钟；
+附件一是一个已结束项目的任务数据，包含了每个任务的位置、定价和完成情况（“1”表示完成，“0”表示未完成）；附件二是会员信息数据，包含了会员的位置、信誉值、参考其信誉给出的任务开始预订时间和预订限额，原则上会员信誉越高，越优先开始挑选任务，其配额也就越大（任务分配时实际上是根据预订限额所占比例进行配发）；附件三是一个新的检查项目任务数据，只有任务的位置信息。根据以上内容提出如下四个问题：
 
-(2)在第一问条件下，如果同时计及吊运效率，建立模型确定时间的大小，使货物从岸边到终点 不仅摆动幅度小而且整体效率高；
+\begin{enumerate}
+    \item 研究附件一中项目的任务定价规律，分析任务未完成的原因。
+    \item 为附件一中的项目设计新的任务定价方案，并和原方案进行比较。
+    \item 实际情况下，多个任务可能因为位置比较集中，导致用户会争相选择，一种考虑是将这些任务联合在一起打包发布。在这种考虑下，如何修改前面的定价模型，对最终的任务完成情况又有什么影响？
+    \item 对附件三中的新项目给出你的任务定价方案，并评价该方案的实施效果。
+\end{enumerate}
 
-(3)考虑缆绳的最大承载力，并兼顾摆动大小和效率，请建立模型，确定吊车运行方式,即确定加速度的大小、时间，并确定最大起吊货物重量；
-
-(4)考虑实际问题的需要，为该公司设计一套图形计算机演示系统，直观演示龙门吊吊运过程。
 \section{符号说明}
 \begin{center}
     \begin{tabular}{cc}
         \hline
         \makebox[0.3\textwidth][c]{符号} & \makebox[0.4\textwidth][c]{意义}        \\ \hline
-        $a$                              & 吊车加速度大小($m/s^{-2}$)              \\ \hline
-        $g$                              & 重力加速度，$9.8m/s^{-2}$               \\ \hline
-        $x(t),y(t)$                      & 货物在时刻$t$的位置坐标                 \\ \hline
-        $v_x(t),v_y(t)$                  & 货物在时刻$t$的水平、竖直速度           \\ \hline
-        $\theta(t)$                      & 吊绳在时刻$t$与竖直方向夹角，顺时针为正 \\ \hline
-        $\theta_{max}$                   & 从B点到C点货物运动过程中的最大摆角      \\ \hline
-        $v_{4xmax}$                      & 货物到终点处的水平速度                  \\ \hline
-        $x_a(t),v_a(t)$                  & 吊车在时刻$t$时的位置坐标，运动速度     \\ \hline
-        $t_{1,2,3,4}$                    & 第1-4段运动分别持续的时间$(s)$          \\ \hline
-        $T_i,i=1,2,3,4$                  & 第$i$段运动结束的时刻$(s)$              \\ \hline
-        $F(t)$                           & 吊绳在时刻$t$时的拉力大小$(N)$          \\ \hline
-        $F_{max}$   & 吊绳的最大拉力，值为$20000g\quad N$ \\ \hline
+        $cp_k$       &  第$k$名会员的任务完成能力  \\ \hline
+        $\overline{cp_i}$       &   第$i$项任务所在网格内会员平均完成能力   \\ \hline
+        $p_i$       &  第$i$个任务的定价    \\ \hline
+        $C_i$       &   第$i$个任务是否被完成的0-1变量   \\ \hline
+        $w_{ij}$       &   任务$i$对会员$j$的吸引度   \\ \hline
+        $l_{ij}$       &   任务$i$与会员$j$之间的距离   \\ \hline
+        $choice(j)$       &   会员$j$在预定任务时的选择   \\ \hline
+        $belong(k)$       &  完成第$k$个任务的会员    \\ \hline
+        $G_j$       &  会员$j$的信誉值    \\ \hline
+        注：未列出及重复的符号以出现出为准
     \end{tabular}
 \end{center}
-\section{问题分析}
-题目给出的龙门吊问题可以看作二维的质点运动问题，因为吊车只沿直线运动，货物没有初速度，在吊车前进的过程中货物只会在包含吊车运动轨迹的与地面垂直的平面内运动。货物的运动也不是平面内的自由运动，而是受到了来自吊车和吊绳的约束，因此货物的运动自由度实际上只有一个，可以用吊绳与竖直方向的夹角$\theta$表示。由于货物的运动受到的约束是完整约束，可以使用分析力学中的拉格朗日方程可以解出其运动微分方程，微分方程可以用软件进行数值求解，这样可以建立货物运动的动力学模型，可以在给定所有参数时解出整个过程的运动状态。
-
-前三问是在不同的参数、目标下的优化问题，可以使用优化模型求解。第一问在加速度给定时仅要求对货物的摆动角度进行优化，第二问在第一问的基础上同时要对整个过程的效率进行优化，第三问比第二问增加了加速度这一参数，并且要求给出能够吊运货物的最大质量。首先考虑效率的定义，由于写出的运动微分方程与货物的质量无关，在相同的吊运方式下，货物质量仅仅受到吊绳能够承受的最大拉力的限制，因此我们认为效率只与时间相关，吊运时间越短效率越高。我们可以根据运动的动力学模型写出最大摆角、吊运时间和实际吊绳最大拉力与$t_{1,2,3,4}$的程序函数，然后通过调用不同的优化算法来求解不同的优化问题。对于较为简单的前两问，可以使用多起点搜索最小值的方法；对于第三问，可以使用遗传算法、退火算法等优化算法进行求解。
-
-对于第四问要求的设计展示龙门吊吊运过程的图形界面(GUI),我们可以使用matlab的图形设计工具进行设计。
 
 \section{模型假设}
 \begin{enumerate}
-    \item 把货物当作质点；
-    \item 货物只做平面运动；
-    \item 吊绳的质量忽略不计；
-    \item 货物摆动过程中不计各种阻力；
-    \item 整个过程中吊绳始终处于拉紧状态，且长度不变；
-    \item 吊运的效率仅取决于吊运过程耗费的时间;
-    \item 吊车到达终点后会立刻刹车将速度降至0。
+    \item 每个任务的工作量基本相同
+    \item 会员成功预定的任务都会完成
 \end{enumerate}
 
-\section{建立模型}
-\subsection{货物运动的动力学模型}
-如图所示建立坐标系:
+\section{问题一的建模与求解}
+\subsection{问题一的分析}
+问题一要求研究已经完成项目中的任务定价规律，并分析其中有大量问完成任务的原因。附件一给出的项目属于结果已经确定的问题，我们需要根据每个任务的定价信息与相关影响因子进行统计分析，从而建立该项目中任务的定价规律。根据经济学原理，市场上一种服务的价格与服务含有的劳动和供求关系有关；本题的数据中能构成对价格的影响因子有任务的位置、任务分布的密度、会员的位置、会员的信誉配额。其中任务与会员的距离和完成任务付出的劳动有关，会员配额、会员和任务的分布密度与供求关系有关。对于“拍照赚钱”的劳务服务，如果假设每个任务的拍照所需的劳动量大致相同，那么会员做不同的任务付出多少的区别便主要来自会员到达任务地点路程远近。对于供求关系，这应当是一个区域性的因素，也就是一个任务的定价受到的供求关系影响主要来自其周边区域，因此我们可以用任务所在区域的任务数密度、会员数密度和会员的信誉值和工作能力来反映。根据以上分析，我们提出以下四种影响任务定价的因素：任务位置、任务所在区域的任务密度，任务所在区域的会员密度，任务所在区域会员的完成能力。通过相关性分析，我们可以得到这些因素与任务定价之间的规律。再通过计算完成的任务与未完成的任务的相关度矩阵的差别，可以分析出一些任务未被完成的原因。
 
-\centerline{\includegraphics[width=10cm]{1.png}}
-设吊车位置坐标为$x_a$,速度为$v_a$;货物的位置$(x,y)$,速度$v$,水平速度$v_{x}$,缆绳与竖直方向的角度为$\theta$(顺时针为正)。令$T_1=t_1,\quad T_2=t_1+t_2,\quad T_3=t_1+t_2+t_3,\quad T_4=t_1+t_2+t_3+t_4$。吊绳能承受的最大拉力$T_{max}=20000g,\quad g$取$9.8m/s^2$。$AB$间距离为$D_1$,$CD$间距离为$D_2$。
+\subsection{建模前的数据分析}
+我们首先使用Global Mapper软件把已完成的项目中的每个任务用散点图标注在地图上，用户的位置也同样标注，如下图（红色为未完成任务，绿色为已完成的任务，黄色为用户）
 
-取货物为研究对象，用分析力学方法，取广义坐标$\theta$
+\centerline{\includegraphics[width=15cm]{1.png}}
+可以发现，任务和用户在城市和道路旁较为集中，其他地方较为分散，主要集中在广州、佛山、东莞、深圳等城市。也有几个用户的地理位置远远超出有任务的区域，应当进行去除。
 
-(1)当$0 \leq t \leq T_1$时,吊车匀加速运动，对于货物有如下拉格朗日函数:
-$$L_{1}=\frac{m}{2}\left(l^{2} \dot{\theta}^{2}-2 a l \dot{\theta} t \cos \theta+a^{2} t^{2}\right)+m gl\cos \theta$$
+我们把任务对应的定价在散点图上进行了标注，我们通过观察发现，越靠近城市繁华地带，任务和用户越密集，任务的定价也越低。我们猜想这是由于城市内交通便利，用户劳动成本低，同时用户数量多，供给过剩，因此定价低，这是与上节的分析相一致的。为了刻画任务位置对定价的影响，我们认为可以通过选定若干任务的分布中心，通过任务点位置与中心的距离远近给出定价决策的一部分。求解中心可以使用K-均值聚类分析进行。
 
-代入拉格朗日方程$$\frac{d}{d t}\left(\frac{\partial L_{1}}{\partial \dot{\theta}}\right)-\frac{\partial L_1}{\partial \theta}=0$$
+\subsection{定价模型的建立}
+\subsubsection{数据的网格化处理}
+找出已完成项目中任务分布的经纬度边界，记经度区间为$[L_{min},L_{max}]$,记纬度区间为$[B_{min},B_{max}]$,将经纬度各划为50等分，则区域被划分为2500各小区域，每个小区域的经度、纬度跨度为$$\Delta L=\frac{L_{max}-L_{min}}{50},\quad \Delta B=\frac{B_{max}-B_{min}}{50}$$则对于给定的经纬坐标$(L,B)$，其所在的经纬网格的行列数为$$i=\lceil \frac{L-L_{min}}{\Delta L}\rceil,\quad j=\lceil \frac{B-B_{min}}{\Delta B}\rceil$$
+据此可以得出每个任务所在的网格，以及在此区域内的会员所在的网格。
 
-得到运动微分方程:$$l \ddot{\theta}+a \dot{\theta} t \sin \theta-a \cos \theta+g \sin \theta=0$$
-$$\text{初始条件}\left.\theta\right|_{t=0}=0,\left.\quad \dot{\theta}\right|_{t=0}=0$$
+\subsubsection{影响因子的确定}
+根据问题分析，任务的定价有四项影响因子，即任务位置、所在网格的任务数密度、所在网格的会员数密度、所在网格的会员完成任务的能力。我们对其具体定义如下：
 
-由$\theta(t),0 \leqslant t \leqslant T_{1}$，有
+\subsection{定价模型的求解}
 
-$$\left\{\begin{array}{l}
-        x=x_{a}-l \theta \sin \theta=\frac{a}{2} t^{2}-\operatorname{lsim} \theta \\
-        v_{x}=v_{a}-l \dot{\theta} \cos \theta=a t-l \dot{\theta} \cos \theta
-    \end{array}\right.$$
+\subsection{任务未完成原因的分析}
 
-(2)当$T_1 \leq t \leq T_2$时，吊车匀速运动，对于货物同上可得运动微分方程:
-$$l\ddot{\theta}-v_{a2}\dot{\theta}\sin\theta+(v_{a2}+g) \sin \theta=0$$
-$$\text{初始条件}\left \{\begin{array}{l}
-        \left.\theta\right|_{t=T_{1}^{+}}=\left.\theta\right|_{t=T_{1}^{-}} \\
-        \left.\dot{\theta}\right|_{t=T_{1}^{+}}=\left.\dot{\theta}\right|_{t=T_{1}^{-}}
-    \end{array}\right.$$
+\section{问题二的建模与求解}
+\subsection{问题二的分析}
+问题一解得的结果仅是已经结束的项目的任务定价模型，问题二进一步要求改进这一项目的定价，这实际上是一个调整定价使APP取得最大效益的优化问题。在APP开发者的角度，高效益应当是付出尽可能少的酬金，完成尽可能多的任务。为了预测项目在某种定价方式下的完成度，我们需要建立会员根据已有的定价选择任务的模型，根据题目的规定和现实生活中的经验，我们提出会员在选择任务时应当遵循以“吸引度”、信誉优先、时间次序的原则，由此可以得到在已知定价的情况下求解任务完成情况的方法。我们可以通过已完成的任务调整模型中的参数，然后可以用这一模型求解定价的优化问题。
 
-此时有:$$\left\{\begin{array}{l}
-        x=x_{a}-l\theta \sin \theta=\frac{a}{2} T_{1}^{2}+aT_1(t-T_1)-l\sin \theta \\
-        v_{x}=v_{a}-l \dot{\theta} \cos \theta=a T_{1}-l\dot{\theta }\cos \theta
-    \end{array}\right.$$
+\section{问题三的建模与求解}
 
-(3)当$T_2 \leq t \leq T_3$时，吊车匀减速运动，对于货物同(1)可得运动微分方程:
-$$l \ddot{\theta}+a\left(T_{1}+T_{2}-t\right) \dot{\theta} \sin \theta+a \cos \theta+g \sin \theta=0$$
-$$\text{初始条件}\left \{\begin{array}{l}
-        \left.\theta\right|_{t=T_{2}^{+}}=\left.\theta\right|_{t=T_{2}^{-}} \\
-        \left.\dot{\theta}\right|_{t=T_{2}^{+}}=\left.\dot{\theta}\right|_{t=T_{2}^{-}}
-    \end{array}\right.$$
-此时有:$$\left\{\begin{array}{l}
-        v_{x}=a\left(T_{1}+T_{2}-t\right)-l \dot{ \theta} \cos \theta \\
-        x=x_{2}+aT_{1}(t-T_{2})-\frac{a}{2}(t-T_{2})^{2}-l\sin\theta
-    \end{array}\right.$$
-并且需要满足在匀减速运动结束时吊车刚好到达B点，即$$\frac{a}{2}t_1^2+at_1t_2+\frac{a}{2}t_3(2t_1-t_3)=D_1$$
-
-(4)当$T_3 \leq t \leq T_4$时，吊车匀速运动，对于货物同(1)可得运动微分方程:
-$$l\ddot{\theta}-v_{a4}\dot{\theta}\sin\theta+(v_{a4}+g) \sin \theta=0$$
-%$$\ddot{\theta}+\frac{g}{l} \sin \theta=0$$
-$$\text{初始条件}\left \{\begin{array}{l}
-        \left.\theta\right|_{t=T_{3}^{+}}=\left.\theta\right|_{t=T_{3}^{-}} \\
-        \left.\dot{\theta}\right|_{t=T_{3}^{+}}=\left.\dot{\theta}\right|_{t=T_{3}^{-}}
-    \end{array}\right.$$
-此时有:$$\left\{\begin{array}{l}
-        v_{x}=a\left(T_1+T_{2}-T_{3}\right)-l \dot{\theta} \cos \theta \\
-        x=D_1+a\left(T_{1}+T_{2}-T_{3}\right)\left(t-T_{3}\right)-l \sin \theta
-    \end{array}\right.$$
-
-从B点到C点货物运动过程中的最大摆角$\theta_{\max }=\max \theta(t), \quad T_3 \leqslant t \leqslant T_{4}$，
-
-对于货物最终的水平速度，取第四段匀速过程中货物水平速度绝对值的最大值$v_{4xmax}=max\left \{v_{x},T_3 \leq t \leq T_4\right \}$,要求$v_{4xmax} \leq 0.5m/s$。
-
-运动全过程中货物的竖直速度$v_{y}=-l\dot{\theta}\sin\theta,\quad 0\leq t\leq T_4$,对速度求导可得水平、竖直方向的加速度，由此可以计算整个运动过程中每一时刻的拉力:$$\left\{\begin{array}{l}
-        F_{x}=m a_{x}   \\
-        F_{y}=mg-ma_{y} \\
-        F=\sqrt{F_{x}^2 + F_{y}^2}
-    \end{array}\right.$$
-要求$F \leq F_{max},0 \leq t \leq T_4$
-
-\subsection{对摆角、效率的优化模型}
-\subsubsection{仅考虑摆角的优化模型}
-针对第一问提出的问题，在加速度确定的情况下，考虑到题目中对运动的限制,即在匀减速运动结束时吊车要正要运动到B点：$$x_{a1}+x_{a2}+x_{a3}=\frac{a}{2}t_1^2+at_1t_2+\frac{a}{2}t_3(2t_1-t_3)=D_1$$可以把参数$t_{1,2,3,4}$简化为只需要两个参数$t_1,t_3$。通过上节建立的动力学模型可以求出在BC段运动过程中的最大摆角$\theta_{max}$。由此可以建立单目标优化模型如下：
-$$min\quad \theta_{max}$$
-$$\text{$s.t.$}\left \{\begin{array}{l}
-        v_{4xmax}<0.5m/s \\
-        T_4\leq120s      \\
-        F<F_{max},0\leq t\leq T_4
-    \end{array}\right.$$
-
-\subsubsection{考虑摆角、效率的优化模型}
-
-第二问在第一问的基础上同时考虑BC段的最大摆角$\theta_{max}$和吊运效率的，优化模型由单目标变为多目标。由于该问题中的货物质量固定为$m=6000kg$,我们便把效率定义为时间的线性函数，吊运所用的总时间越短，调运效率越高。在用第一问的方法已经求得若干有不同的BC段最大摆角、吊运时间的解的情况下，可以通过逼近理想解排序模型（TOPSIS）找出相对较优的一种解。我们可以首先找到所有解当中摆角$\theta_{max}$和时间$t$的最大值与最小值，使用极差标准化方法得到这若干种情形下的摆角和时间的效益型属性值，取理想解为两属性都取最小值，负理想解为两属性都取最大值，调整两个目标的权重$w_1,w_2$，解出每种情形下与理想解的贴近度$\frac{d^+}{d^++d^-}$,取与最理想解最贴近近的解作为该问题的答案。
-
-\subsubsection{考虑加速度时对摆角、效率的优化模型}
-对于第三问提出的问题，自变量比前两问增加了一个加速度$a,<a\leq1$，且货物运输的过程中缆绳拉力不得超过最大承载力。我们定义效率$\eta$为平均单位内时间吊运货物的最大质量，即$\eta=m_{max}/T_4$，则优化模型如下所示：
-$$\begin{array}{l}
-    \max \eta \\
-    \min \theta \\
-    \text { $s.t.$ }\left\{\begin{array}{c}
-    F_{m}<F_{\max }, 0 \leqslant t \leqslant T_{4} \\
-    T_{4} \leqslant 120 s \\
-    v_{4}<0.5 m / s
-    \end{array}\right.
-\end{array}$$
-由5.1中提出的货物运动的动力学模型可知，货物的运动方程与货物质量$m$无关，在货物运动的加速度已经确定的情况下，吊绳拉力的大小正比于质量$m$。因此当运动过程中吊绳的最大拉力等于$T_{max}$时，对应的货物质量就是当前吊运方式能吊运的最大质量。即$m_{max}=\frac{T_{max}}{a_{max}}$,其中$a_{max}$是整个运动过程中去除重力加速度后的加速度最大值。对于该多目标问题，我们在5.1中模型的基础上采用NSGA-II（Nondominated Sorting Genetic Algorithm-II，非支配排序遗传算法二）进行求解。对于现有规模为种群，其通过帕累托支配关系将种群分为$k$个非支配层，每个非支配层里的个体互无支配关系，并使用联赛选择法选择较优个体，其规则为：非支配等级越小的个体越优，若两个体非支配等级相同，则拥挤度越大的越优。优质个体选作新父种群，其产生的子群与该新父种群一起进行下一轮非支配排序。算法流程如下图所示：
-
-\centerline{\includegraphics[width=13cm]{p2demo.png}}
-
-最后一轮迭代结束后，我们能够得到一组互不支配的帕累托占优解。类似问题二的求解方法，我们使用熵权法确定各目标的权值，并通过逼近理想排序在解集种找出相对较优的一组解作为该问题答案。
-
-\section{模型求解}
-我们首先将货物运动的动力学模型使用matlab编写为一个函数脚本，其中四段运动过程的常微分方程使用ode45求解器进行数值求解，当给定的参数$a,t1,t3$满足题目中的限制要求，则计算出这种运动样式下的最大摆角和吊运时间，否则返回一个设定的极大值。我们针对前三问不同的优化目标对函数脚本进行对应的修改，以满足不同的求解需求。函数脚本func.m见附录。
-
-\subsection{第一问的求解}
-考虑到动力学模型的最大摆角——$(t_1,t_3)$不是线性关系，在特定区间的取值由于不满足模型限制而返回极大值，因此很难通过一次简单的优化过程找到最优解。为此我们使用了在多个起点运行区域极小值的搜索函数，具体而言是使用了matlab的fminsearch函数，在$t_1=[3,12],\quad t_3=[t_1-2,t_1]$的范围均匀取初始点多次运行，找到若干局部较优解，再从中取$\theta_{max}$最小的解作为最终解。运行后得到当$(t_1,t_2,t_3,t_4)=(5.57s,15.97s,5.2s,93.02s)$时，货物在BC段的最大摆角$\theta_{max}=0.54^{\circ}$。这种情况下的货物$\theta(t),x(t)$曲线如下图所示。(不同颜色的线条代表4段不同的运动过程)
-\begin{figure}[!h]
-    \centering
-    \begin{minipage}[c]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{p1x.png}
-        %\subcaption{时间-x坐标图像}
-        \label{fig:sample-figure-a}
-    \end{minipage}
-    \begin{minipage}[c]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{p1theta.png}
-        %\subcaption{时间-摆角图像}
-        \label{fig:sample-figure-b}
-    \end{minipage}
-    \caption{问题一解的$\theta(t)\quad x(t)$图像}
-    \label{fig:sample-figure}
-\end{figure}
-
-\subsection{第二问的求解}
-第二问在第一问的基础上增加了对吊运效率的考虑，也就是使吊运时间越短越好。为此，我们采取了先找出最大摆角接近第一问解得的最小值的若干解，再对这些解的摆角和时间使用逼近理想解排序法进行排序，取结果最好的一个作为问题的解。我们使用第一问的程序找出所有BC段最大摆角小于$1.89^{\circ}$的解，即找到$\theta_{max}$在三倍最小值的范围内的所有解，共得到了30组解，观察发现其中摆角最大的是$1.43^{\circ}$，且其用时为两分钟；其余的解都要比这个更好；我们又发现在所有的解当中，用时最短的是$82.14s$。因此我们以最小值$\theta_{max}=0.63^{\circ},t=82.14s$,和最大值$\theta_{max}=1.43^{\circ},t=120s$使用极差标准化解出每种解的效益性指标属性值$a_{\theta i}=\frac{\theta_i-0.63^{\circ}}{1.43^{\circ}-0.63^{\circ}},\quad a_{ti}=\frac{t_i-82.14s}{120s-82.14s}$。令理想解为两属性值都取最小值，负理想解为两属性值都取最大值。取对摆角和时间的权值分别为$(w_{\theta},w_t)=(0.6,0.4),(0.5,0.5),(0.7,0.3)$三种权值组合,求得每组解与理想解与负理想解的加权欧氏距离$d^+,d^-$,最后得到每组解与理想解的贴近度$c_i=\frac{d^-}{d^++d^-}$,对其排序后得到贴近度最大的一组解如下：
-$$(t_1,t_2,t_3,t_4)=(5.57s,16.00s,5.08s,61.25s),\quad \theta_{max}=0.96^{\circ},t=87.9s$$。
-该吊运过程的$\theta(t),x(t)$曲线如下图所示。
-\begin{figure}[!h]
-    \centering
-    \begin{minipage}[c]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{p2x.png}
-        %\subcaption{时间-x坐标图像}
-        \label{fig:sample-figure-a}
-    \end{minipage}
-    \begin{minipage}[c]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{p2theta.png}
-        %\subcaption{时间-摆角图像}
-        \label{fig:sample-figure-b}
-    \end{minipage}
-    \caption{问题二解的$\theta(t)\quad x(t)$图像}
-    \label{fig:sample-figure}
-\end{figure}
-
-\subsection{第三问的求解}
-考虑到当$(t_1,t_3)$取值不当时模型会由于不满足限制而返回极大值，因此我们取$t_1=[3,10]$,$t_2=[3,10]$,$a=[0,1]$作为搜索空间，设置种群规模$n=1000$，最大遗传代数100代，迭代求出帕累托解集如下图所示：
-
-\centerline{\includegraphics[width=13cm]{p3demo.png}}
-
-我们用熵权法确定各目标权值。设解集中有$n$个解，有$m$个目标函数。第$i$个解的第$j$个指标$d_{ij}$，我们对其进行向量归一化：
-$$p_{ij}=\frac{d_{ij}}{\sum_{i=1}^{n}d_{ij}}$$
-其中各指标的熵值为
-$$e_j=-k\sum_{i=1}^{n}p_{ij}lnp_{ij}$$
-其中$k=1/$ln$n$。由此，各指标的权重为：
-$$h_j=\frac{1-e_j}{\sum_{k=1}^{m}(1-e_k)}$$
-我们首先将解集中的角度转化由成本型指标转化为效益性指标，即令$\theta_i^’$=$-\theta_i$。随后对每种指标采用$Z$标准化，即
-$$\left\{\begin{matrix}
- \theta_{zi}=\frac{\theta_i-\mu _\theta}{\sigma _{\theta_i}}&\\
- \eta _{zi}=\frac{\eta_i-\mu _\eta}{\sigma _{\eta_i}}& 
-\end{matrix}\right.$$
-其中$\mu _\theta,\mu _\eta,\sigma _{\theta_i},\sigma _{\eta_i}$分别为$\theta_i,\eta_i$的均值和标准差。由此得到最大平均货运效率和最大摆动角度的权值分别为
-$w_\eta=0.554,w_\theta=0.447$。
-使用TOPSIS法和对加权后的解进行排序，排序前十的结果如下表:
-
-\begin{table}[]
-    \centering
-    \begin{tabular}{|c|c|c|c|c|c|}
-        \hline
-    $a(m/s^2)$ & $t_1/s$ & $t_3/s$ & $\eta_i$ & $\theta_i/rad$ & rank  \\ \hline
-    0.74       & 8.01  & 7.55  & 320.77                 & 0.0150                   & 1.00  \\ \hline
-    0.74       & 8.01  & 7.55  & 320.70                 & 0.0150                   & 2.00  \\ \hline
-    0.77       & 7.94  & 7.50  & 318.27                 & 0.0141                   & 3.00  \\ \hline
-    0.77       & 7.94  & 7.50  & 318.10                 & 0.0140                   & 4.00  \\ \hline
-    0.74       & 8.01  & 7.56  & 320.50                 & 0.0149                   & 5.00  \\ \hline
-    0.74       & 8.01  & 7.56  & 320.89                 & 0.0151                   & 6.00  \\ \hline
-    0.77       & 7.94  & 7.51  & 318.31                 & 0.0141                   & 7.00  \\ \hline
-    0.74       & 8.02  & 7.56  & 320.53                 & 0.0149                   & 8.00  \\ \hline
-    0.74       & 8.01  & 7.56  & 320.85                 & 0.0151                   & 9.00  \\ \hline
-    0.74       & 8.02  & 7.56  & 320.97                 & 0.0151                   & 10.00 \\ \hline
-    \end{tabular}
-    \end{table}
-\newpage
-由此可知，当考虑缆绳最大承载力和加速度时，令$a=0.75m/s^2$,$(t_1,t_2,t_3,t_4)=(8.00s,2.01s,7.55s,50s)$可在吊运效率和最大吊运角度间进行较好权衡，此时BC段最大摆角和吊运时间分别为$\theta_{max}=0.86^{\circ},t=61.69s$最大起吊货物重量$m_{max}=19784kg$。该解的$\theta(t),x(t)$图像如下所示。
-
-\begin{figure}[!h]
-    \centering
-    \begin{minipage}[c]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{p3x.png}
-        %\subcaption{时间-x坐标图像}
-        \label{fig:sample-figure-a}
-    \end{minipage}
-    \begin{minipage}[c]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{p3theta.png}
-        %\subcaption{时间-摆角图像}
-        \label{fig:sample-figure-b}
-    \end{minipage}
-    \caption{问题三解的$\theta(t)\quad x(t)$图像}
-    \label{fig:sample-figure}
-\end{figure}
-
-\newpage
-\subsection{问题四的求解}
-我们可以使用matlab的图形设计工具进行设计,得到了可以输入$(a,t_1,t_3)$参数便可求得货物运动的轨迹图的动态展示的图形用户界面。效果如下：
-
-\centerline{\includegraphics[width=10cm]{p4.png}}
-
-
+\section{问题四的建模与求解}
 
 \section{模型总结}
-本文通过建立龙门吊的动力学模型，使用优化算法对吊运过程的摆角和效率进行了优化，得到了比较好的解。本文模型的优点在于使用了分析力学方法，直接以摆角为广义坐标得到了一个自由度的运动微分方程，但由于求解时使用的是数值法求解微分方程，且后一段依赖前一段的结果，导致精准程度不是很理想。对于优化问题，本文对不同规模的问题使用了不同的优化方法，得到的结果都通过作图的方式得到了初步验证。最后，本文通过设计GUI界面使整个吊运过程可视化，便于检验求解结果。
+
+\begin{thebibliography}{9}%宽度9
+    \bibitem[1]{1}
+    祝胜兰, 饶运清. 一维下料问题的启发式方法[J]. 机械制造与自动化, 2014, 43(001):52-55.
+\end{thebibliography}
 
 \begin{appendices}
-    \section{func.m}
-
-    \begin{lstlisting}[language=matlab]
-        function [Time, Angle, Mmax]=func(a,t1,t3)
-        inf=10000000;
-        D1=60; D2=15; l=15; m=6000;
-        g=9.8; Tmax=20000*g;
-        %a=0.5; t1=5; t2=20; t3=4;%此时t为每段的时间间隔
-        xa1=a*t1*t1/2; xa3=D1; xa4=D1+D2; xa2=xa3-0.5*a*t3*(2*t1-t3);
-        t2=(xa2-xa1)/(a*t1); t4=(xa4-xa3)/(a*(t1-t3)); %xai为第i段结束后吊车的位移
-        t2=t2+t1; t3=t2+t3; t4=t3+t4;%此时t为每段结束的时刻
-        t=cell(4,1); theta=cell(4,1); x=cell(4,1); y=cell(4,1); %时间，角度，横纵坐标
-        va=cell(4,1); va{2}=a*t1; va{4}=a*(t1+t2-t3);%吊车速度
-        v=cell(4,1); Tx=cell(4,1); Ty=cell(4,1); T=cell(4,1); %水平速度，拉力,
-        ax=cell(4,1); ay=cell(4,1);%水平竖直加速度
-        thetamax=0; Tm=0; %实际最大的角度，拉力
-        
-        if t2<0 || (t3-t2)>=t1 || (t2-t1)<0.1 || t4>120
-            Time=inf; Angle=inf; Mmax=inf;
-            return;
-        end
-        
-        %第一段加速
-        dydt=@(t,y)[ y(2) ; (-a*y(2)*t*sin(y(1))+a*cos(y(1))-g*sin(y(1)))/l ];
-        options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-        [t{1},theta{1}] = ode45(dydt,[0:0.01:t1],[0 0],options);
-        x{1}=0.5*a*t{1}.^2-l*sin(theta{1}(:,1));
-        v{1}=a*t{1}-l*theta{1}(:,2).*cos(theta{1}(:,1));
-        
-        %第二段匀速
-        dydt=@(t,y)[ y(2) ; (1/l)*(va{2}*y(2)*sin(y(1))-(va{2}+g)*sin(y(1))) ];
-        options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-        [t{2},theta{2}] = ode45(dydt,[t1:0.01:t2],[theta{1}(length(theta{1}(:,1)),1) theta{1}(length(theta{1}(:,2)),2)],options);
-        x{2}=xa1+a*t1*(t{2}-t1)-l*sin(theta{2}(:,1));
-        v{2}=a*t1-l*theta{2}(:,2).*cos(theta{2}(:,1));
-        
-        %第三段减速
-        dydt=@(t,y)[ y(2) ; (-a*y(2)*(t1+t2-t)*sin(y(1))-a*cos(y(1))-g*sin(y(1)))/l ];
-        options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-        [t{3},theta{3}] = ode45(dydt,[t2:0.01:t3],[theta{2}(length(theta{2}(:,1)),1) theta{2}(length(theta{2}(:,2)),2)],options);
-        x{3}=xa2+a*t1*(t{3}-t2)-0.5*a*(t{3}-t2).^2-l*sin(theta{3}(:,1));
-        v{3}=a*(t1+t2-t{3})-l*theta{3}(:,2).*cos(theta{3}(:,1));
-        
-        %第四段匀速
-        dydt=@(t,y)[ y(2) ; (1/l)*(va{4}*y(2)*sin(y(1))-(va{4}+g)*sin(y(1))) ];
-        options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-        [t{4},theta{4}] = ode45(dydt,[t3:0.01:t4],[theta{3}(length(theta{3}(:,1)),1) theta{3}(length(theta{3}(:,2)),2)],options);
-        x{4}=xa3+a*(t1+t2-t3)*(t{4}-t3)-l*sin(theta{4}(:,1));
-        v{4}=a*(t1+t2-t3)-l*theta{4}(:,2).*cos(theta{4}(:,1));
-        thetamax=max(theta{4}(:,1));
-        
-        for i=1:4
-            y{i}=l*cos(theta{i}(:,1));
-            ax{i}=gradient(v{i},0.05);
-            Tx{i}=m*ax{i};
-            ay{i}=-1*(gradient(theta{i}(:,2),0.05).*sin(theta{i}(:,1)) + cos(theta{i}(:,1)).*theta{i}(:,2).^2);
-            Ty{i}=m*(g-l*ay{i});
-            T{i}=(Tx{i}.^2 + Ty{i}.^2).^0.5;
-            Tm=max(Tm,max(T{i}));
-            p=plot(x{i},-y{i},'linewidth',1.5);
-            hold on;
-        end
-        
-        E4 = 0.5*m*(v{4}(length(v{4}))^2 + (l*theta{4}(length(theta{4}(:,2)),2)*sin(theta{4}(length(theta{4}(:,1)),1)))^2);
-        vcx=(2*E4/m + 2*g*l*(1-cos(theta{4}(length(theta{4}(:,1)),1))))^0.5;
-        thetamax=max(thetamax,acos(1-E4/(m*g*l)));
-        
-        vcx=max(vcx,max(v{4}));
-        if Tm>Tmax || vcx>0.5 %若拉力超限，最终速度超限
-            Time=inf; Angle=inf;
-            return;
-        end
-        
-        Time=t4; Angle=thetamax; Mmax=m*Tmax/Tm;
-     \end{lstlisting}
-    \section{func1.m}
-    \begin{lstlisting}[language=matlab]
-        function Angle=func1(input)
-inf=10000000;
-D1=60; D2=15; l=15; m=6000;
-g=9.8; Tmax=20000*g; 
-a=0.5; t1=input(1); t3=input(2);%此时t为每段的时间间隔
-xa1=a*t1*t1/2; xa3=D1; xa4=D1+D2; xa2=xa3-0.5*a*t3*(2*t1-t3);
-t2=(xa2-xa1)/(a*t1); t4=(xa4-xa3)/(a*(t1-t3)); %xai为第i段结束后吊车的位移
-t2=t2+t1; t3=t2+t3; t4=t3+t4;%此时t为每段结束的时刻
-t=cell(4,1); theta=cell(4,1); x=cell(4,1); y=cell(4,1); %时间，角度，横纵坐标
-va=cell(4,1); va{2}=a*t1; va{4}=a*(t1+t2-t3);%吊车速度
-v=cell(4,1); Tx=cell(4,1); Ty=cell(4,1); T=cell(4,1); %水平速度，拉力,
-ax=cell(4,1); ay=cell(4,1);%水平竖直加速度
-thetamax=0; Tm=0; %实际最大的角度，拉力
-
-if t2<0 || (t3-t2)>=t1 || (t2-t1)<0.1 || t4>120
-    Time=inf; Angle=inf; Tm=inf;
-    return;
-end
-
-%第一段加速
-dydt=@(t,y)[ y(2) ; (-a*y(2)*t*sin(y(1))+a*cos(y(1))-g*sin(y(1)))/l ];
-options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-[t{1},theta{1}] = ode45(dydt,[0:0.05:t1],[0 0],options);
-x{1}=0.5*a*t{1}.^2-l*sin(theta{1}(:,1));
-v{1}=a*t{1}-l*theta{1}(:,2).*cos(theta{1}(:,1));
-
-%第二段匀速
-dydt=@(t,y)[ y(2) ; (1/l)*(va{2}*y(2)*sin(y(1))-(va{2}+g)*sin(y(1))) ];
-options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-[t{2},theta{2}] = ode45(dydt,[t1:0.05:t2],[theta{1}(length(theta{1}(:,1)),1) theta{1}(length(theta{1}(:,2)),2)],options);
-x{2}=xa1+a*t1*(t{2}-t1)-l*sin(theta{2}(:,1));
-v{2}=a*t1-l*theta{2}(:,2).*cos(theta{2}(:,1));
-
-%第三段减速
-dydt=@(t,y)[ y(2) ; (-a*y(2)*(t1+t2-t)*sin(y(1))-a*cos(y(1))-g*sin(y(1)))/l ];
-options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-[t{3},theta{3}] = ode45(dydt,[t2:0.05:t3],[theta{2}(length(theta{2}(:,1)),1) theta{2}(length(theta{2}(:,2)),2)],options);
-x{3}=xa2+a*t1*(t{3}-t2)-0.5*a*(t{3}-t2).^2-l*sin(theta{3}(:,1));
-v{3}=a*(t1+t2-t{3})-l*theta{3}(:,2).*cos(theta{3}(:,1));
-
-%第四段匀速
-dydt=@(t,y)[ y(2) ; (1/l)*(va{4}*y(2)*sin(y(1))-(va{4}+g)*sin(y(1))) ];
-options = odeset('RelTol',1e-5,'AbsTol',[1e-5 1e-5]);
-[t{4},theta{4}] = ode45(dydt,[t3:0.05:t4],[theta{3}(length(theta{3}(:,1)),1) theta{3}(length(theta{3}(:,2)),2)],options);
-x{4}=xa3+a*(t1+t2-t3)*(t{4}-t3)-l*sin(theta{4}(:,1));
-v{4}=a*(t1+t2-t3)-l*theta{4}(:,2).*cos(theta{4}(:,1));
-thetamax=max(theta{4}(:,1));
-
-for i=1:4
-    y{i}=l*cos(theta{i}(:,1));
-    ax{i}=gradient(v{i},0.05);
-    Tx{i}=m*ax{i};
-    ay{i}=-1*(gradient(theta{i}(:,2),0.05).*sin(theta{i}(:,1)) + cos(theta{i}(:,1)).*theta{i}(:,2).^2);
-    Ty{i}=m*(g-l*ay{i});
-    T{i}=(Tx{i}.^2 + Ty{i}.^2).^0.5;
-    Tm=max(Tm,max(T{i}));
-    %plot(t{i},theta{i}(:,1));
-    %hold on;
-end
-
-E4 = 0.5*m*(v{4}(length(v{4}))^2 + (l*theta{4}(length(theta{4}(:,2)),2)*sin(theta{4}(length(theta{4}(:,1)),1)))^2);
-vcx=(2*E4/m + 2*g*l*(1-cos(theta{4}(length(theta{4}(:,1)),1))))^0.5;
-thetamax=max(thetamax,acos(1-E4/(m*g*l)));
-
-vcx=max(vcx,max(v{4}));
-if Tm>Tmax || vcx>0.5 %若拉力超限，最终速度超限
-    Time=inf; Angle=inf;
-    return;
-end
-
-Time=t4; Angle=thetamax;
-     \end{lstlisting}
-     \section{演示代码}
-     \begin{lstlisting}[language=matlab]
-        classdef app1_exported < matlab.apps.AppBase
-
-        % Properties that correspond to app components
-        properties (Access = public)
-            UIFigure            matlab.ui.Figure
-            GridLayout          matlab.ui.container.GridLayout
-            LeftPanel           matlab.ui.container.Panel
-            t1EditFieldLabel    matlab.ui.control.Label
-            t1EditField         matlab.ui.control.NumericEditField
-            t3EditFieldLabel    matlab.ui.control.Label
-            t3EditField         matlab.ui.control.NumericEditField
-            Button              matlab.ui.control.Button
-            Label_2             matlab.ui.control.Label
-            Slider              matlab.ui.control.Slider
-            RightPanel          matlab.ui.container.Panel
-            UIAxes              matlab.ui.control.UIAxes
-            TimeTextAreaLabel   matlab.ui.control.Label
-            Time                matlab.ui.control.TextArea
-            AngleTextAreaLabel  matlab.ui.control.Label
-            Angle               matlab.ui.control.TextArea
-            MmaxTextAreaLabel   matlab.ui.control.Label
-            Mmax                matlab.ui.control.TextArea
-        end
-    
-        % Properties that correspond to apps with auto-reflow
-        properties (Access = private)
-            onePanelWidth = 576;
-        end
-    
-        
-        properties (Access = public)
-            a1 % Description
-            t_1
-            t_3
-            h
-        end
-        
-    
-        % Callbacks that handle component events
-        methods (Access = private)
-    
-            % Code that executes after component creation
-            function startupFcn(app, a1, t_1, t_3)
-                app.h = animatedline(app.UIAxes);
-            end
-    
-            % Changes arrangement of the app based on UIFigure width
-            function updateAppLayout(app, event)
-                currentFigureWidth = app.UIFigure.Position(3);
-                if(currentFigureWidth <= app.onePanelWidth)
-                    % Change to a 2x1 grid
-                    app.GridLayout.RowHeight = {480, 480};
-                    app.GridLayout.ColumnWidth = {'1x'};
-                    app.RightPanel.Layout.Row = 2;
-                    app.RightPanel.Layout.Column = 1;
-                else
-                    % Change to a 1x2 grid
-                    app.GridLayout.RowHeight = {'1x'};
-                    app.GridLayout.ColumnWidth = {171, '1x'};
-                    app.RightPanel.Layout.Row = 1;
-                    app.RightPanel.Layout.Column = 2;
-                end
-            end
-    
-            % Callback function: Angle, Button, Mmax
-            function ButtonPushed(app, event)
-                %clf(app.UIAxes);
-                app.h.LineWidth=0.7;
-                app.h.Color='r';
-                [app.Time.Value,app.Angle.Value,app.Mmax.Value]=funcapp(app.a1,app.t_1,app.t_3,app.h);
-            end
-    
-            % Callback function
-            function EditFieldValueChanged(app, event)
-                value = app.EditField.Value;
-                app.a1=value;
-            end
-    
-            % Value changed function: t1EditField
-            function t1EditFieldValueChanged(app, event)
-                value = app.t1EditField.Value;
-                app.t_1=value;
-            end
-    
-            % Value changed function: t3EditField
-            function t3EditFieldValueChanged(app, event)
-                value = app.t3EditField.Value;
-                app.t_3=value;
-            end
-    
-            % Value changed function: Slider
-            function SliderValueChanged(app, event)
-                value = app.Slider.Value;
-                app.a1=value;
-            end
-    
-            % Callback function
-            function UITableDisplayDataChanged(app, event)
-          
-                
-            end
-    
-            % Callback function
-            function UITableCellEdit(app, event)
-                
-            end
-    
-            % Value changed function: Time
-            function TimeValueChanged(app, event)
-    
-                
-            end
-        end
-    
-        % Component initialization
-        methods (Access = private)
-    
-            % Create UIFigure and components
-            function createComponents(app)
-    
-                % Create UIFigure and hide until all components are created
-                app.UIFigure = uifigure('Visible', 'off');
-                app.UIFigure.AutoResizeChildren = 'off';
-                app.UIFigure.Position = [100 100 640 480];
-                app.UIFigure.Name = 'MATLAB App';
-                app.UIFigure.SizeChangedFcn = createCallbackFcn(app, @updateAppLayout, true);
-    
-                % Create GridLayout
-                app.GridLayout = uigridlayout(app.UIFigure);
-                app.GridLayout.ColumnWidth = {171, '1x'};
-                app.GridLayout.RowHeight = {'1x'};
-                app.GridLayout.ColumnSpacing = 0;
-                app.GridLayout.RowSpacing = 0;
-                app.GridLayout.Padding = [0 0 0 0];
-                app.GridLayout.Scrollable = 'on';
-    
-                % Create LeftPanel
-                app.LeftPanel = uipanel(app.GridLayout);
-                app.LeftPanel.TitlePosition = 'centertop';
-                app.LeftPanel.Title = '可调参数';
-                app.LeftPanel.Layout.Row = 1;
-                app.LeftPanel.Layout.Column = 1;
-    
-                % Create t1EditFieldLabel
-                app.t1EditFieldLabel = uilabel(app.LeftPanel);
-                app.t1EditFieldLabel.HorizontalAlignment = 'right';
-                app.t1EditFieldLabel.Position = [17 263 25 22];
-                app.t1EditFieldLabel.Text = 't1';
-    
-                % Create t1EditField
-                app.t1EditField = uieditfield(app.LeftPanel, 'numeric');
-                app.t1EditField.ValueChangedFcn = createCallbackFcn(app, @t1EditFieldValueChanged, true);
-                app.t1EditField.Position = [57 263 100 22];
-    
-                % Create t3EditFieldLabel
-                app.t3EditFieldLabel = uilabel(app.LeftPanel);
-                app.t3EditFieldLabel.HorizontalAlignment = 'right';
-                app.t3EditFieldLabel.Position = [16 226 25 22];
-                app.t3EditFieldLabel.Text = 't3';
-    
-                % Create t3EditField
-                app.t3EditField = uieditfield(app.LeftPanel, 'numeric');
-                app.t3EditField.ValueChangedFcn = createCallbackFcn(app, @t3EditFieldValueChanged, true);
-                app.t3EditField.Position = [56 226 100 22];
-    
-                % Create Button
-                app.Button = uibutton(app.LeftPanel, 'push');
-                app.Button.ButtonPushedFcn = createCallbackFcn(app, @ButtonPushed, true);
-                app.Button.Position = [36 166 100 24];
-                app.Button.Text = '演示';
-    
-                % Create Label_2
-                app.Label_2 = uilabel(app.LeftPanel);
-                app.Label_2.HorizontalAlignment = 'right';
-                app.Label_2.Position = [8 311 41 22];
-                app.Label_2.Text = '加速度';
-    
-                % Create Slider
-                app.Slider = uislider(app.LeftPanel);
-                app.Slider.Limits = [0 1];
-                app.Slider.ValueChangedFcn = createCallbackFcn(app, @SliderValueChanged, true);
-                app.Slider.Position = [59 332 99 3];
-    
-                % Create RightPanel
-                app.RightPanel = uipanel(app.GridLayout);
-                app.RightPanel.TitlePosition = 'centertop';
-                app.RightPanel.Title = '龙门吊演示';
-                app.RightPanel.BackgroundColor = [0.9412 0.9412 0.9412];
-                app.RightPanel.Layout.Row = 1;
-                app.RightPanel.Layout.Column = 2;
-    
-                % Create UIAxes
-                app.UIAxes = uiaxes(app.RightPanel);
-                title(app.UIAxes, '位置示意图')
-                xlabel(app.UIAxes, 'X')
-                ylabel(app.UIAxes, 'Y')
-                app.UIAxes.XLim = [0 100];
-                app.UIAxes.YLim = [-15 -14.75];
-                app.UIAxes.XGrid = 'on';
-                app.UIAxes.TitleFontWeight = 'bold';
-                app.UIAxes.Position = [10 197 438 250];
-    
-                % Create TimeTextAreaLabel
-                app.TimeTextAreaLabel = uilabel(app.RightPanel);
-                app.TimeTextAreaLabel.HorizontalAlignment = 'right';
-                app.TimeTextAreaLabel.Position = [42 155 32 22];
-                app.TimeTextAreaLabel.Text = 'Time';
-    
-                % Create Time
-                app.Time = uitextarea(app.RightPanel);
-                app.Time.ValueChangedFcn = createCallbackFcn(app, @TimeValueChanged, true);
-                app.Time.Tag = 'Time';
-                app.Time.Position = [89 155 150 24];
-    
-                % Create AngleTextAreaLabel
-                app.AngleTextAreaLabel = uilabel(app.RightPanel);
-                app.AngleTextAreaLabel.HorizontalAlignment = 'right';
-                app.AngleTextAreaLabel.Position = [38 99 36 22];
-                app.AngleTextAreaLabel.Text = 'Angle';
-    
-                % Create Angle
-                app.Angle = uitextarea(app.RightPanel);
-                app.Angle.ValueChangedFcn = createCallbackFcn(app, @ButtonPushed, true);
-                app.Angle.Tag = 'Angle';
-                app.Angle.Position = [89 99 150 24];
-    
-                % Create MmaxTextAreaLabel
-                app.MmaxTextAreaLabel = uilabel(app.RightPanel);
-                app.MmaxTextAreaLabel.HorizontalAlignment = 'right';
-                app.MmaxTextAreaLabel.Position = [36 36 38 22];
-                app.MmaxTextAreaLabel.Text = 'Mmax';
-    
-                % Create Mmax
-                app.Mmax = uitextarea(app.RightPanel);
-                app.Mmax.ValueChangedFcn = createCallbackFcn(app, @ButtonPushed, true);
-                app.Mmax.Tag = 'Mmax';
-                app.Mmax.Position = [89 36 150 24];
-    
-                % Show the figure after all components are created
-                app.UIFigure.Visible = 'on';
-            end
-        end
-    
-        % App creation and deletion
-        methods (Access = public)
-    
-            % Construct app
-            function app = app1_exported(varargin)
-    
-                % Create UIFigure and components
-                createComponents(app)
-    
-                % Register the app with App Designer
-                registerApp(app, app.UIFigure)
-    
-                % Execute the startup function
-                runStartupFcn(app, @(app)startupFcn(app, varargin{:}))
-    
-                if nargout == 0
-                    clear app
-                end
-            end
-    
-            % Code that executes before app deletion
-            function delete(app)
-    
-                % Delete UIFigure when app is deleted
-                delete(app.UIFigure)
-            end
-        end
-    end
-     \end{lstlisting}
-     \section{第二问代码}
-     \begin{lstlisting}[language=matlab]
-        thetamin=min(Ans(:,3)); thetamax=max(Ans(:,3));
-        tmin=min(Ans(:,4)); tmax=max(Ans(:,4));
-        a=zeros(30,5);
-        for i=1:133
-            a(i,1)=(Ans(i,3)-thetamin)/(thetamax-thetamin);
-            a(i,2)=(Ans(i,4)-tmin)/(tmax-tmin);
-        end
-        abest=[min(a(:,1)), min(a(:,2))];
-        aworst=[max(a(:,1)), max(a(:,2))];
-        w1=0.6; w2=0.4;
-        for i=1:133
-            a(i,3)=(w1*(a(i,1)-abest(1))^2 + w2*(a(i,2)-abest(2))^2)^0.5;
-            a(i,4)=(w1*(a(i,1)-aworst(1))^2 + w2*(a(i,2)-aworst(2))^2)^0.5;
-            a(i,5)=a(i,3)/(a(i,3)+a(i,4));
-        end
-        
-        for i=1:133
-            Ans(i,3)=Ans(i,3)*180/pi;
-        end
-     \end{lstlisting}
 \end{appendices}
 \end{document}
