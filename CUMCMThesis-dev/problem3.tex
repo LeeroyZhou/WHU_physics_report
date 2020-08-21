@@ -261,3 +261,39 @@ Step5：方案及完成度结果
 数值，同时输出预先设定的任务定价矩阵。考虑到对复杂度和运行时间降低，不
 采用对定价进行遍历的方式，而通过对任务定价矩阵的不同设置得到几组不同结
 果，从而对比分析得到近似最优解。
+\subsection{模型求解结果}
+在对模型求解时，设定几组不同的价格调整比例，得到835 个任务的定价以
+及任务完成度，由于结果数据庞大，此处只展示部分结果：
+% Please add the following required packages to your document preamble:
+% \usepackage{longtable}
+% Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
+\begin{longtable}[c]{cccccc}
+    \caption{}
+    \label{tab:my-table}\\
+    \hline
+            & 每单定价 & 69.80 & 69.55 & 72.22 & 71.68 \\
+    \endfirsthead
+    %
+    \endhead
+    %
+    \hline
+    \endfoot
+    %
+    \endlastfoot
+    %
+    a=1.1   & 完成与否 & 1     & 0     & 1     & 1     \\
+    b=0.99  & 成本   & \multicolumn{4}{c}{45,762}    \\
+            & 完成率  & \multicolumn{4}{c}{0.76}      \\
+            & 每单定价 & 70.15 & 69.90 & 72.22 & 71.68 \\
+    a=1.1   & 完成与否 & 1     & 1     & 1     & 1     \\
+    b=0.995 & 成本   & \multicolumn{4}{c}{52,403}    \\
+            & 完成率  & \multicolumn{4}{c}{0.87}      \\
+            & 每单定价 & 70.15 & 69.90 & 75.50 & 74.94 \\
+    a=1.15  & 完成与否 & 1     & 1     & 1     & 1     \\
+    b=0.995 & 成本   & \multicolumn{4}{c}{53,563}    \\
+            & 完成率  & \multicolumn{4}{c}{0.87}      \\
+            & 每单定价 & 69.80 & 69.55 & 75.50 & 74.84 \\
+    a=1.15  & 完成与否 & 1     & 1     & 0     & 1     \\
+    b=0.99  & 成本   & \multicolumn{4}{c}{46,921}    \\
+            & 完成率  & \multicolumn{4}{c}{0.76}      \\ \hline
+    \end{longtable}
