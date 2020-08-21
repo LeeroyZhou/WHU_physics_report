@@ -1,0 +1,227 @@
+\subsection{双目标优化模型的建立}
+\subsubsection{目标函数确定}
+通过对于问题的分析，新的任务定价方案与旧的定价方案相比，应该满足两个优化条件：成本更少、任务完成率更高。所以，本文将新的定价方案设计问题转化为双目标优化问题，目标函数如下：$$\left\{\begin{array}{l}
+        \min \sum_{i=1}^{835} p_{i} \\
+        \max \sum_{i=1}^{1835} C_{i}
+    \end{array}\right.$$
+其中，$p_i$为第$i$个任务的定价；$C_i$为1时，表示任务$i$被完成，$C_i$为0时，表示任务$i$未被完成。
+\subsubsection{吸引度矩阵的建立}
+Step1：吸引度的定义公式
+
+在问题一未完成原因的分析求解中，本文得到了距离这个影响因子的影响作用最为显著。这表明会员在选择是否预定并完成某一单时，会重点考虑这一任务与自己的距离。同时，任务的定价直接影响到会员的收益，也会作为重要的考虑因素。
+
+为了综合考虑这两个因素对于任务完成情况的影响，我们引入吸引度矩阵$W_{ij}$,其中矩阵中每个元素$w_{ij}$表示第$i$个任务对第$i$个任务对第$j$个会员的吸引度$(i=1,2\ldots 875,j=1,2\ldots 1875)$当任务距离会员越远，任务定价越低时，任务对会员的吸引度越低。具体定义如下:
+$$w_{i j}=\sqrt{\frac{a}{l_{i j}^{2}}+b p_{i}^{2}}, \quad(\mathrm{i}=1,2 \cdots 875, \quad j=1,2 \cdots 1875)$$
+其中,$l_{ij}$表示任务$i$与会员$j$之间的距离;$p_i$表示任务$i$的定价
+
+我们假设吸引度$w_{ij}$的取值范围[0,1].。当吸引度的值接近0时，说明这个任
+务对用户毫无吸引力；当吸引度的值接近于1时，说明这个任务非常具有吸引力。
+
+Step2:参数a,b的求解
+
+在问题一中我们曾对任务的位置分布做聚类分析，依据任务的位置信息将其
+分为四类，每一类都有一个中心点。中心点的任务占据着绝对的地理优势，它对
+与之距离最近的会员应当具有绝对大的吸引度，我们假设这个吸引度值为0.99。
+在四个位于中心点的任务里选取两个任务，并找到与之最近的一个会员，计算两
+者之间的距离，得到如下两组数据：
+% Please add the following required packages to your document preamble:
+% \usepackage{longtable}
+% Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
+\begin{longtable}[c]{c|cc}
+    \caption{选取的任务}
+    \label{tab:my-table}       \\
+    \hline
+    任务号码 & A0716  & A0396  \\
+    \endfirsthead
+    %
+    \endhead
+    %
+    \hline
+    \endfoot
+    %
+    \endlastfoot
+    %
+    会员编号 & B0509  & B0972  \\
+    $I_{ij}$ & 0.4514 & 0.2061 \\
+    $P_i$    & 75     & 65.5   \\ \hline
+\end{longtable}
+
+将这两组数据代入表达式中，可以求得$a=0.01175,b=0.000164$
+
+\subsubsection{任务吸引度的阈值确定}
+在得到任务吸引度矩阵后，我们需要将每个任务对每个会员的吸引度$w_{ij}$ 与这
+个任务的吸引度阈值$w_i$作比较，用以判断这个任务是否具备足够的吸引度被完
+成。当吸引度大于等于阈值时，该任务具备足够的吸引度被会员领取并完成，即：
+$$C_{i}=\left\{\begin{array}{ll}
+        1, & w_{i j}>w_{i}      \\
+        0, & w_{i j} \leq w_{i}
+    \end{array}\right.$$
+
+利用吸引度$w_{ij}$的计算公式与附件一中的任务数据计算出吸引度矩阵，当第$i$个任务被完成时，其阈值至少低于其对一个会员的吸引度；当第$i$个任务未被完成时，其阈值不低于任何其对一个会员的吸引度。阈值是作为一个判别指标与吸引度的值作比较，它的绝对值的大小并无实际意义，重要的是其相对大小，因此，阈值的确定具有一定的主观性。在这里，我们依据附件一中的任务数据，做出如下假设：
+$$w_{i}=\left\{\begin{array}{l}
+        \min \left\{w_{i j}\right\}, C_{i}=1 \\
+        \max \left\{w_{i j}\right\}, C_{i}=0
+    \end{array}\right.$$
+
+\subsubsection{约束条件的确定}
+在确定约束条件之前，我们结合题目中的条件给出如下准则：
+\begin{enumerate}
+    \item 最大吸引力准则:$\max \{w_{ij}\}$
+    \item 竞争准则:$\max\{w_{ij}\}$
+    \item 分配准则:$\text {belong}(i)=j \mid \begin{array}{l}
+                  \max \left\{w_{i j}\right\} \\
+                  \max \left\{G\left(n_{m}\right)\right\}
+              \end{array}$,表示任务$i$分配给会员$j$
+    \item 时间列准则:以第一个时间点6:30为例
+          $$\begin{array}{l}
+                  \qquad \operatorname{choice1}(j)=i \mid \begin{array}{l}
+                      \max \left\{w_{i j}\right\}      \\
+                      i=1,2 \cdots 835                 \\
+                      j=1,2 \cdots, 7,14, \cdots, 1253 \\
+                      \text { belong }(i)
+                  \end{array} \\
+              \end{array}$$
+          约束条件为:
+          $$\begin{array}{c}
+                  50 \leq p_{i} \leq 100                                        \\
+                  C_{i}=\left\{\begin{array}{l}
+                      1, \quad \mathrm{W}_{i j}>w_{i} \\
+                      0, \quad \mathrm{w}_{i j} \leq w_{i}
+                  \end{array}\right.                 \\
+                  w_{i j}=\sqrt{\frac{0.01175}{l_{i j}^{2}}+0.000164 p_{i}^{2}} \\
+                  w_{i}=\left\{\begin{array}{c}
+                      \min \left\{w_{i j}\right\}, C_{i}=1 \\
+                      \max \left\{w_{i j}\right\}, C_{i}=0
+                  \end{array}\right.                 \\
+                  \operatorname{choice}(j)=k \mid \begin{array}{c}
+                      w_{kj}=\min \left\{w_{i j}\right\} \\
+                      i=1,2 \cdots 835, \quad j=1,2 \cdots 1875
+                  \end{array}     \\
+                  \begin{array}{c}
+                      \qquad \operatorname{belong}(k)=n_{j} \mid \begin{array}{l}
+                          w_{k n_{m}}=\max \left\{w_{i n_{m}}\right\},(m=1,2 \cdots n) \\
+                          G\left(n_{j}\right)=\max \left\{G\left(n_{m}\right)\right\}(1 \leq j \leq n)
+                      \end{array}
+                  \end{array}
+              \end{array}
+          $$
+\end{enumerate}
+
+关于约束条件的说明如下：
+
+1是关于任务定价的限定范围，这个价格范围是参照附件一中的任务定价区间大致给出的。
+
+2表明当任务$i $对会员$j $的吸引度大于任务$i $的阈值时，任务$i$ 会被完成；当
+任务$i$ 对会员j 的吸引度不大于任务$i$  的阈值时，任务$i$不会被完成。
+
+3是上文计算出的吸引度矩阵中元素的计算公式。
+
+4是每个任务的吸引度阈值的确定。
+
+5是为了说明当会员$j $选择预定任务$k $时， $k $对该会员的吸引度在所有的待
+选任务中是最大的，即会员会选择预约对自己吸引度最大的任务。
+
+6是为了表明不同的会员在选择同一个任务时，信誉值最大的会员具有最大
+优先度。如果有$n $个会员同时预定任务$k$ ，任务$k $最后被这$n $个会员中信誉值最
+大的人成功预约。$G( j)$表示会员 $j$的信誉值。
+
+所以,总的优化模型为:
+
+
+$$\begin{aligned}
+         & \begin{array}{l}
+            \min \sum_{i=1}^{835} p_{i} \\
+            \max \sum_{i=1}^{1835} C_{i}
+        \end{array} \\
+         & s.t.\quad
+        \begin{cases}
+             & 50 \leq p_{i} \leq 100                                        \\
+             & C_{i}=\left\{\begin{array}{ll}
+                1, & w_{i j}>w_{i}      \\
+                0, & w_{i j} \leq w_{i}
+            \end{array}\right.                \\
+             & w_{i j}=\sqrt{\frac{0.01175}{l_{i j}^{2}}+0.000164 p_{i}^{2}} \\
+             & w_{i}=\left\{\begin{array}{l}
+                \min \left\{w_{i j}\right\}, C_{i}=1 \\
+                \max \left\{w_{i j}\right\}, C_{i}=0
+            \end{array}\right.                \\
+             & \text {belong}(\mathrm{i})=j \mid \begin{array}{l}
+                \max \left\{w_{i j}\right\} \\
+                \max \left\{G\left(n_{m}\right)\right\}
+            \end{array}  \\
+             & \begin{array}{ll}
+                \text {choice1}(j)=i \mid & \begin{array}{l}
+                    \max \left\{w_{i j}\right\}      \\
+                    \mathrm{i}=1,2 \cdots 835        \\
+                    j=1,2 \cdots, 7,14, \cdots, 1253 \\
+                    \text { belong }(\mathrm{i})
+                \end{array}
+            \end{array}                                    \\
+            .                                                                \\
+            .                                                                \\
+            .                                                                \\
+             & \begin{array}{l}
+                \operatorname{choice} 31(j)=k\mid \begin{array}{l}
+                    \max \left\{w_{i j}\right\} \\
+                    j=153,165,169, \cdots, 1875 \\
+                    \text { belong }(\mathrm{i})
+                \end{array}
+            \end{array}.
+        \end{cases}
+    \end{aligned}
+$$
+\subsection{双目标优化模型的求解}
+\subsubsection{模型求解分析}
+新的任务定价方案模型是在全面考虑约束条件下，建立的大型双目标优化模
+型。模型的的解即长度为835 的一维定价矩阵，是通过竞争、分配、时间列准则
+等个各个约束的限定，得到的满足目标函数的全局最优解。
+
+但是模型的最优解的长度较长，约束条件复杂，如吸引度阈值、吸引度等各
+个约束变量都是维度较大的矩阵，一方面即使在约束条件下对两个目标分别求解
+是比较困难的，很大程度的原因在于模型中变量太多，尤其是模型的约束条件中
+包含了时间列的动态变化准则，这种限制使得模型的变成非线性而且不易求解的
+复杂数学模型；另一方面，从算法角度考虑， 为了得到最优的任务定价方案，
+需要对任务的定价在一定范围内进行遍历并作为最外层循环，同时在内部也有吸
+引度、阈值等大型数据矩阵以及内层循环遍历，进而使得算法的复杂度程指数上
+升，这对算法运行时所需要的时间资源和内存资源存在很大要求。
+
+因此综合考虑算法复杂度以及程序的运行实现，采用分布逐级优化的策略，
+在算法中对模型中的约束进行一定简化，并做出适当假设，在存在一定误差之下，
+得到全局最优解的近似解作为模型最优解，即任务定价方案。
+\subsubsection{模型求解步骤}
+Step1：预先设置任务定价
+
+将任务的定价直接进行设定，并进行分组对比，通过得到的任务成本和任务
+完成率两项指标，从而确定一种局部最优解，作为最终近似解。
+
+Step2：吸引度矩阵确定
+
+通过计算会员与每个任务之间的距离，根据模型二和问题一，由吸引度计算
+公式得到每个任务对于每个会员的吸引度矩阵。
+
+Step3：时间刻准则
+
+满足不同时刻不同情况的约束条件，通过建立for 循环，将6：30 时刻转换
+为编号1，依次递推，至8：00 编号31，通过循环遍历，满足不同时间可选择预
+定人数不同的约束。
+
+Step4：目标任务确定
+
+从时刻编号1 开始，通过对释放能够预定任务的会员，相应的在该时刻能够
+预定的任务中，通过遍历吸引度矩阵，找到最大吸引的任务，并记录位置。
+
+Step5：冲突判断
+
+判断位置记录矩阵中，是否存在数值相等的情况，即判断是否存在冲突。若
+发生冲突，则对会员的信誉值进行比较，从而确定一个优先选择，即信誉高的会
+员得到此次任务预定权。
+
+Step5：方案及完成度结果
+
+通过对时间和任务预定数的遍历，得到最终任务完成度矩阵，并输出任务完
+成度数值，同时输出预先设定的任务定价矩阵。考虑到对复杂度和运行时间降低，
+不采用对定价进行遍历的方式，而通过对任务定价矩阵的不同设置得到几组不同
+结果，从而对比分析得到近似最优解。
+
+\subsubsection{模型求解结果}
+
